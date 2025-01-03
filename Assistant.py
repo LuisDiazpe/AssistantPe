@@ -4,6 +4,8 @@ import time
 import pyautogui  # Para trabajar con coordenadas de pantalla globales
 import requests  # Para obtener noticias desde una API
 import math
+from PIL import Image, ImageTk
+import io
 
 class Assistant:
     def __init__(self, root):
@@ -132,7 +134,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo para simular movimiento natural
+            self.angle += random.uniform(-0.1, 0.1)  
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -188,20 +190,27 @@ class Assistant:
 
         # Obtener noticias desde la API
         try:
-            api_key = "6c8be6de99d6477e872492194efd7d14"  
-            url = f"https://newsapi.org/v2/top-headlines?country=pe&apiKey={api_key}"
+            api_key = "pub_63621582321df3583172d78579eaf41a4319b"  
+            url = f"https://newsdata.io/api/1/news?country=pe&apikey={api_key}"
             response = requests.get(url)
             news = response.json()
 
             # Mostrar las primeras noticias con imágenes
-            for article in news['articles'][:10]:
+            for article in news['results'][:10]:
                 article_frame = tk.Frame(frame, bg="white", relief=tk.RIDGE, borderwidth=1)
                 article_frame.pack(fill=tk.X, pady=5)
 
-                if article['urlToImage']:
-                    img_url = article['urlToImage']
-                    img_label = tk.Label(article_frame, text="[Imagen]", bg="white", fg="blue")  # Placeholder
-                    img_label.pack(side=tk.LEFT, padx=5)
+                if 'image_url' in article and article['image_url']:
+                    try:
+                        img_data = requests.get(article['image_url']).content
+                        img = Image.open(io.BytesIO(img_data))
+                        img = img.resize((50, 50))  # Ajustar tamaño de la imagen
+                        photo = ImageTk.PhotoImage(img)
+                        img_label = tk.Label(article_frame, image=photo, bg="white")
+                        img_label.image = photo  # Necesario para evitar que la imagen sea recolectada por el garbage collector
+                        img_label.pack(side=tk.LEFT, padx=5)
+                    except Exception as e:
+                        print(f"No se pudo cargar la imagen: {e}")
 
                 headline = tk.Label(
                     article_frame, text=article['title'], wraplength=400, justify=tk.LEFT, bg="white", font=("Arial", 12)
