@@ -82,7 +82,7 @@ class Assistant:
                 self.start_mouse_chase()
             self.root.after(30 * 60 * 1000, check_chase)  # Reintentar en 30 minutos
 
-        self.root.after(30 * 1000, check_chase)  # Primera ejecución en 30 segundos para pruebas
+        self.root.after(30 * 60 * 1000, check_chase)  # Primera ejecución en 30 minutos
 
     def start_mouse_chase(self):
         self.following = True
@@ -128,7 +128,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  
+            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo para simular movimiento natural
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -211,19 +211,37 @@ class Assistant:
             # Mover al escondite y mostrar "trozos de tierra"
             self.root.geometry(f"+{hide_x}+{hide_y}")
             self.canvas.itemconfig(self.character, fill="white")  # Hacer al personaje invisible
-            self.show_dirt_pieces(hide_x, hide_y)
+            self.animate_dirt_effect(hide_x, hide_y)
 
         self.root.after(5000, hide)
 
-    def show_dirt_pieces(self, x, y):
-        # Crear trozos de tierra para indicar el escondite
+    def animate_dirt_effect(self, x, y):
+        # Crear una animación de bloques de tierra tipo "Minecraft"
         dirt_window = tk.Toplevel(self.root)
-        dirt_window.geometry(f"100x50+{x}+{y}")
+        dirt_window.geometry(f"100x100+{x}+{y}")
         dirt_window.overrideredirect(1)
         dirt_window.attributes('-topmost', True)
+        dirt_canvas = tk.Canvas(dirt_window, width=100, height=100, bg="white", highlightthickness=0)
+        dirt_canvas.pack()
 
-        dirt_label = tk.Label(dirt_window, text="Trozos de tierra", font=("Arial", 12), bg="brown", fg="white")
-        dirt_label.pack(expand=True)
+        # Crear bloques de tierra
+        blocks = []
+        for i in range(3):
+            for j in range(3):
+                block = dirt_canvas.create_rectangle(
+                    j * 30 + 5, i * 30 + 5, j * 30 + 25, i * 30 + 25, fill="brown", outline="black"
+                )
+                blocks.append(block)
+
+        def animate_blocks():
+            if blocks:
+                block = blocks.pop(0)
+                dirt_canvas.delete(block)
+                self.root.after(100, animate_blocks)
+            else:
+                dirt_window.destroy()
+
+        animate_blocks()
 
         # Permitir que el usuario haga clic para revelar al personaje
         def found():
