@@ -3,7 +3,7 @@ import random
 import time
 import pyautogui  
 import requests  # Para obtener noticias desde una API
-from threading import Timer  # Para manejar intervalos de tiempo
+import math
 
 class Assistant:
     def __init__(self, root):
@@ -27,9 +27,10 @@ class Assistant:
         self.character = self.canvas.create_oval(10, 10, 90, 90, fill="blue", outline="black")
 
         # Variables de movimiento
-        self.dx = random.uniform(-5, 5)
-        self.dy = random.uniform(-5, 5)
+        self.angle = random.uniform(0, 2 * math.pi)  # Ángulo de dirección inicial
+        self.speed = 5  # Velocidad inicial
         self.following = False
+        self.mouse_captured = False
 
         # Evento para clic en el personaje
         self.canvas.tag_bind(self.character, "<Button-1>", self.show_menu)
@@ -37,74 +38,122 @@ class Assistant:
         # Movimiento inicial
         self.move_character()
 
-        # Detección del mouse
-        self.root.bind("<Motion>", self.detect_mouse)
-
-        # Configurar probabilidad de capturar el mouse cada 30 minutos
-        self.schedule_mouse_capture()
+        # Iniciar temporizador para persecución
+        self.schedule_mouse_chase()
 
     def move_character(self):
         # Obtener posición actual de la ventana
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
 
-        # Simular pausas aleatorias
-        if random.random() < 0.01:  # Pausa breve ocasional
-            self.root.after(500, self.move_character)
+        # Simular pausas breves para comportamiento natural
+        if random.random() < 0.01:  # Pausa breve
+            self.root.after(300, self.move_character)
             return
 
-        # Mover personaje dentro de la pantalla
-        new_x = window_x + self.dx
-        new_y = window_y + self.dy
+        # Cambiar ligeramente el ángulo para crear movimiento curvo
+        self.angle += random.uniform(-0.1, 0.1)
 
-        # Rebotar en los bordes de la pantalla
+        # Calcular nueva posición
+        dx = math.cos(self.angle) * self.speed
+        dy = math.sin(self.angle) * self.speed
+        new_x = window_x + dx
+        new_y = window_y + dy
+
+        # Ajustar dirección cerca de los bordes
         if new_x <= 0 or new_x + 100 >= self.screen_width:
-            self.dx = -self.dx + random.uniform(-1, 1)  # Cambio aleatorio de dirección
+            self.angle = math.pi - self.angle  # Invertir ángulo horizontal
+            new_x = max(0, min(self.screen_width - 100, new_x))
         if new_y <= 0 or new_y + 100 >= self.screen_height:
-            self.dy = -self.dy + random.uniform(-1, 1)
+            self.angle = -self.angle  # Invertir ángulo vertical
+            new_y = max(0, min(self.screen_height - 100, new_y))
 
         # Actualizar posición de la ventana
         self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
 
-        # Continuar movimiento si no está siguiendo el mouse
-        if not self.following:
-            self.root.after(30, self.move_character)
+        # Continuar movimiento si no está siguiendo el mouse o capturando el mouse
+        if not self.following and not self.mouse_captured:
+            self.root.after(50, self.move_character)
 
-    def detect_mouse(self, event):
-        if self.following:
-            return
+    def schedule_mouse_chase(self):
+        # Configurar para que cada 30 minutos verifique si persigue el mouse
+        def check_chase():
+            if random.random() < 0.5:  # 50% de probabilidad
+                self.start_mouse_chase()
+            self.root.after(30 * 60 * 1000, check_chase)  # Reintentar en 30 minutos
 
-        mouse_x, mouse_y = pyautogui.position()
-        char_x, char_y = self.get_center()
-        distance = ((mouse_x - char_x) ** 2 + (mouse_y - char_y) ** 2) ** 0.5
+        self.root.after(30 * 1000, check_chase)  # Primera ejecución en 30 segundos para pruebas
 
-        if distance < 200:  # Si el mouse está cerca
-            self.follow_mouse(mouse_x, mouse_y)
-
-    def follow_mouse(self, mouse_x, mouse_y):
+    def start_mouse_chase(self):
         self.following = True
+        self.speed = 5  # Restablecer velocidad inicial
         start_time = time.time()
 
-        def follow():
+        def chase():
             nonlocal start_time
             elapsed = time.time() - start_time
 
-            if elapsed > 10:  # Perseguir por 10 segundos
-                self.following = False
-                self.move_character()
-                return
+            # Aumentar velocidad cada 2 segundos
+            if int(elapsed) % 2 == 0:
+                self.speed += 1
 
+            mouse_x, mouse_y = pyautogui.position()
             char_x, char_y = self.get_center()
-            dx = (mouse_x - char_x) / 15 + random.uniform(-1, 1)
-            dy = (mouse_y - char_y) / 15 + random.uniform(-1, 1)
+            dx = (mouse_x - char_x) / 15 * self.speed / 5
+            dy = (mouse_y - char_y) / 15 * self.speed / 5
 
             new_x = self.root.winfo_x() + dx
             new_y = self.root.winfo_y() + dy
 
-            self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
-            self.root.after(30, follow)
+            # Ajustar límites para que no se salga de la pantalla
+            new_x = max(0, min(self.screen_width - 100, new_x))
+            new_y = max(0, min(self.screen_height - 100, new_y))
 
-        follow()
+            self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
+
+            # Verificar si capturó el mouse
+            if abs(mouse_x - char_x) < 20 and abs(mouse_y - char_y) < 20:
+                self.capture_mouse()
+            else:
+                self.root.after(30, chase)
+
+        chase()
+
+    def capture_mouse(self):
+        print("¡Mouse capturado!")
+        self.mouse_captured = True
+
+        def move_with_mouse():
+            if not self.mouse_captured:
+                return
+
+            # Movimiento continuo mientras el mouse está capturado
+            self.angle += random.uniform(-0.1, 0.1)  
+            dx = math.cos(self.angle) * self.speed
+            dy = math.sin(self.angle) * self.speed
+
+            new_x = self.root.winfo_x() + dx
+            new_y = self.root.winfo_y() + dy
+
+            # Ajustar límites para que no se salga de la pantalla
+            new_x = max(0, min(self.screen_width - 100, new_x))
+            new_y = max(0, min(self.screen_height - 100, new_y))
+
+            # Actualizar posición del asistente y mover el mouse con él
+            self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
+            pyautogui.moveTo(new_x + 50, new_y + 50, duration=0.1)  # Mantener el mouse centrado en el asistente
+
+            self.root.after(50, move_with_mouse)
+
+        def release_mouse():
+            self.mouse_captured = False
+            self.following = False
+            self.speed = 5  # Restaurar velocidad
+            self.move_character()
+            print("Mouse liberado")
+
+        move_with_mouse()
+        self.root.after(10000, release_mouse)  # Soltar el mouse después de 10 segundos
 
     def get_center(self):
         window_x = self.root.winfo_x()
@@ -204,39 +253,6 @@ class Assistant:
                 countdown_window.destroy()
 
         update_countdown(seconds)
-
-    def schedule_mouse_capture(self):
-        # Programar el intento de capturar el mouse cada 30 minutos
-        def attempt_capture():
-            if random.random() < 0.5:  # 50% de probabilidad
-                self.capture_mouse()
-            self.root.after(30 * 60 * 1000, attempt_capture)  # Reprogramar
-
-        attempt_capture()
-
-    def capture_mouse(self):
-        print("¡Capturando el mouse por 10 segundos!")
-        start_time = time.time()
-
-        def move_mouse_randomly():
-            elapsed = time.time() - start_time
-            if elapsed > 10:  # Liberar el mouse después de 10 segundos
-                print("Mouse liberado.")
-                return
-
-            # Mover el mouse a una posición aleatoria cercana
-            current_x, current_y = pyautogui.position()
-            new_x = current_x + random.randint(-100, 100)
-            new_y = current_y + random.randint(-100, 100)
-
-            # Asegurarse de que esté dentro de la pantalla
-            new_x = max(0, min(self.screen_width, new_x))
-            new_y = max(0, min(self.screen_height, new_y))
-
-            pyautogui.moveTo(new_x, new_y, duration=0.1)
-            self.root.after(100, move_mouse_randomly)
-
-        move_mouse_randomly()
 
     def close_assistant(self):
         # Cerrar la aplicación
