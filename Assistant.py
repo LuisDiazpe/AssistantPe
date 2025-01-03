@@ -1,7 +1,7 @@
 import tkinter as tk
 import random
 import time
-import pyautogui  # Para trabajar con coordenadas de pantalla globales
+import pyautogui  
 import requests  # Para obtener noticias desde una API
 
 class Assistant:
@@ -26,8 +26,8 @@ class Assistant:
         self.character = self.canvas.create_oval(10, 10, 90, 90, fill="blue", outline="black")
 
         # Variables de movimiento
-        self.dx = random.choice([-5, 5])
-        self.dy = random.choice([-5, 5])
+        self.dx = random.uniform(-5, 5)
+        self.dy = random.uniform(-5, 5)
         self.following = False
 
         # Evento para clic en el personaje
@@ -44,18 +44,23 @@ class Assistant:
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
 
+        # Simular pausas aleatorias
+        if random.random() < 0.01:  # Pausa breve ocasional
+            self.root.after(500, self.move_character)
+            return
+
         # Mover personaje dentro de la pantalla
         new_x = window_x + self.dx
         new_y = window_y + self.dy
 
         # Rebotar en los bordes de la pantalla
         if new_x <= 0 or new_x + 100 >= self.screen_width:
-            self.dx = -self.dx
+            self.dx = -self.dx + random.uniform(-1, 1)  # Cambio aleatorio de dirección
         if new_y <= 0 or new_y + 100 >= self.screen_height:
-            self.dy = -self.dy
+            self.dy = -self.dy + random.uniform(-1, 1)
 
         # Actualizar posición de la ventana
-        self.root.geometry(f"+{new_x}+{new_y}")
+        self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
 
         # Continuar movimiento si no está siguiendo el mouse
         if not self.following:
@@ -69,7 +74,7 @@ class Assistant:
         char_x, char_y = self.get_center()
         distance = ((mouse_x - char_x) ** 2 + (mouse_y - char_y) ** 2) ** 0.5
 
-        if distance < 150:  # Si el mouse está cerca
+        if distance < 200:  # Si el mouse está cerca
             self.follow_mouse(mouse_x, mouse_y)
 
     def follow_mouse(self, mouse_x, mouse_y):
@@ -86,9 +91,13 @@ class Assistant:
                 return
 
             char_x, char_y = self.get_center()
-            dx = (mouse_x - char_x) / 20
-            dy = (mouse_y - char_y) / 20
-            self.root.geometry(f"+{int(self.root.winfo_x() + dx)}+{int(self.root.winfo_y() + dy)}")
+            dx = (mouse_x - char_x) / 15 + random.uniform(-1, 1)
+            dy = (mouse_y - char_y) / 15 + random.uniform(-1, 1)
+
+            new_x = self.root.winfo_x() + dx
+            new_y = self.root.winfo_y() + dy
+
+            self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
             self.root.after(30, follow)
 
         follow()
@@ -122,7 +131,7 @@ class Assistant:
 
         # Obtener noticias desde la API
         try:
-            api_key = "your_news_api_key"  # Reemplaza con tu clave de NewsAPI
+            api_key = "6c8be6de99d6477e872492194efd7d14"  
             url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}"
             response = requests.get(url)
             news = response.json()
@@ -136,19 +145,30 @@ class Assistant:
             error_label.pack(pady=10)
 
     def play_hide_and_seek(self):
-        # Animación de esconderse
+        # Ocultar el personaje y mostrar una pista interactiva
         print("Jugar a las escondidas...")
         self.canvas.itemconfig(self.character, fill="white")  # Cambiar a invisible
 
-        # Señal visual donde se esconde
-        x1, y1, x2, y2 = self.canvas.coords(self.character)
-        signal = self.canvas.create_oval(x1 + 10, y1 + 10, x2 - 10, y2 - 10, outline="red", width=2)
+        # Elegir un punto al azar en la pantalla para "esconderse"
+        hide_x = random.randint(50, self.screen_width - 50)
+        hide_y = random.randint(50, self.screen_height - 50)
 
-        def reappear():
+        # Crear una señal visible donde se escondió
+        signal = tk.Toplevel(self.root)
+        signal.geometry(f"+{hide_x}+{hide_y}")
+        signal.overrideredirect(1)
+        signal.attributes('-topmost', True)
+
+        signal_label = tk.Label(signal, text="¡Estoy aquí!", fg="red", font=("Arial", 14))
+        signal_label.pack()
+
+        # Evento para encontrar al personaje
+        def found():
             self.canvas.itemconfig(self.character, fill="blue")  # Volver a visible
-            self.canvas.delete(signal)
+            signal.destroy()
+            print("¡Me encontraste!")
 
-        self.root.after(5000, reappear)  # Reaparecer después de 5 segundos
+        signal.bind("<Button-1>", lambda e: found())
 
     def close_assistant(self):
         # Cerrar la aplicación
