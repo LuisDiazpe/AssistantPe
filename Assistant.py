@@ -3,6 +3,7 @@ import random
 import time
 import pyautogui  
 import requests  # Para obtener noticias desde una API
+from threading import Timer  # Para manejar intervalos de tiempo
 
 class Assistant:
     def __init__(self, root):
@@ -38,6 +39,9 @@ class Assistant:
 
         # Detección del mouse
         self.root.bind("<Motion>", self.detect_mouse)
+
+        # Configurar probabilidad de capturar el mouse cada 30 minutos
+        self.schedule_mouse_capture()
 
     def move_character(self):
         # Obtener posición actual de la ventana
@@ -147,30 +151,38 @@ class Assistant:
     def play_hide_and_seek(self):
         print("Jugar a las escondidas...")
 
-        # Elegir un punto al azar en la pantalla para "esconderse"
+        # Elegir un punto aleatorio donde se esconderá
         hide_x = random.randint(50, self.screen_width - 150)
         hide_y = random.randint(50, self.screen_height - 150)
 
-        # Iniciar movimiento hacia el escondite al mismo tiempo que la cuenta regresiva
+        # Mostrar el mensaje de cuenta regresiva y moverse al escondite
         self.show_transparent_countdown(5)
 
-        def move_to_hide():
-            char_x, char_y = self.get_center()
-            dx = (hide_x - char_x) / 20
-            dy = (hide_y - char_y) / 20
-            
-            new_x = self.root.winfo_x() + dx
-            new_y = self.root.winfo_y() + dy
-            
-            self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
+        def hide():
+            # Mover al escondite y mostrar "trozos de tierra"
+            self.root.geometry(f"+{hide_x}+{hide_y}")
+            self.canvas.itemconfig(self.character, fill="white")  # Hacer al personaje invisible
+            self.show_dirt_pieces(hide_x, hide_y)
 
-            # Verificar si ha llegado al punto de escondite
-            if abs(hide_x - char_x) < 10 and abs(hide_y - char_y) < 10:
-                self.canvas.itemconfig(self.character, fill="white")  # Cambiar a invisible
-            else:
-                self.root.after(30, move_to_hide)
+        self.root.after(5000, hide)
 
-        move_to_hide()
+    def show_dirt_pieces(self, x, y):
+        # Crear trozos de tierra para indicar el escondite
+        dirt_window = tk.Toplevel(self.root)
+        dirt_window.geometry(f"100x50+{x}+{y}")
+        dirt_window.overrideredirect(1)
+        dirt_window.attributes('-topmost', True)
+
+        dirt_label = tk.Label(dirt_window, text="Trozos de tierra", font=("Arial", 12), bg="brown", fg="white")
+        dirt_label.pack(expand=True)
+
+        # Permitir que el usuario haga clic para revelar al personaje
+        def found():
+            self.canvas.itemconfig(self.character, fill="blue")  # Hacer al personaje visible
+            dirt_window.destroy()
+            print("¡Me encontraste!")
+
+        dirt_window.bind("<Button-1>", lambda e: found())
 
     def show_transparent_countdown(self, seconds):
         # Crear una ventana completamente transparente
@@ -192,6 +204,39 @@ class Assistant:
                 countdown_window.destroy()
 
         update_countdown(seconds)
+
+    def schedule_mouse_capture(self):
+        # Programar el intento de capturar el mouse cada 30 minutos
+        def attempt_capture():
+            if random.random() < 0.5:  # 50% de probabilidad
+                self.capture_mouse()
+            self.root.after(30 * 60 * 1000, attempt_capture)  # Reprogramar
+
+        attempt_capture()
+
+    def capture_mouse(self):
+        print("¡Capturando el mouse por 10 segundos!")
+        start_time = time.time()
+
+        def move_mouse_randomly():
+            elapsed = time.time() - start_time
+            if elapsed > 10:  # Liberar el mouse después de 10 segundos
+                print("Mouse liberado.")
+                return
+
+            # Mover el mouse a una posición aleatoria cercana
+            current_x, current_y = pyautogui.position()
+            new_x = current_x + random.randint(-100, 100)
+            new_y = current_y + random.randint(-100, 100)
+
+            # Asegurarse de que esté dentro de la pantalla
+            new_x = max(0, min(self.screen_width, new_x))
+            new_y = max(0, min(self.screen_height, new_y))
+
+            pyautogui.moveTo(new_x, new_y, duration=0.1)
+            self.root.after(100, move_mouse_randomly)
+
+        move_mouse_randomly()
 
     def close_assistant(self):
         # Cerrar la aplicación
