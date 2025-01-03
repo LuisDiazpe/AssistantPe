@@ -134,7 +134,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  
+            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo para simular movimiento natural
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -178,46 +178,68 @@ class Assistant:
         # Crear una nueva ventana para mostrar las noticias
         news_window = tk.Toplevel(self.root)
         news_window.title("Noticias")
-        news_window.geometry("600x800")
-
-        # Marco para las noticias
-        frame = tk.Frame(news_window, bg="white")
-        frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        news_window.geometry("800x900")
+        news_window.configure(bg="lightgray")
 
         # Etiqueta de título
-        title = tk.Label(frame, text="Últimas Noticias de Perú", font=("Arial", 18), bg="white")
-        title.pack(pady=10)
+        title = tk.Label(news_window, text="Últimas Noticias de Perú", font=("Arial", 24, "bold"), bg="lightgray")
+        title.pack(pady=20)
+
+        # Marco de desplazamiento para noticias
+        canvas = tk.Canvas(news_window, bg="lightgray")
+        scrollbar = tk.Scrollbar(news_window, orient="vertical", command=canvas.yview)
+        scrollable_frame = tk.Frame(canvas, bg="lightgray")
+
+        scrollable_frame.bind(
+            "<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
 
         # Obtener noticias desde la API
         try:
-            api_key = "pub_63621582321df3583172d78579eaf41a4319b"  
+            api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI proporcionada
             url = f"https://newsdata.io/api/1/news?country=pe&apikey={api_key}"
             response = requests.get(url)
             news = response.json()
 
             # Mostrar las primeras noticias con imágenes
-            for article in news['results'][:10]:
-                article_frame = tk.Frame(frame, bg="white", relief=tk.RIDGE, borderwidth=1)
-                article_frame.pack(fill=tk.X, pady=5)
+            for article in news.get('results', []):
+                if 'title' in article and article['title']:
+                    article_frame = tk.Frame(scrollable_frame, bg="white", relief=tk.RIDGE, borderwidth=2)
+                    article_frame.pack(fill=tk.X, pady=10, padx=10)
 
-                if 'image_url' in article and article['image_url']:
-                    try:
-                        img_data = requests.get(article['image_url']).content
-                        img = Image.open(io.BytesIO(img_data))
-                        img = img.resize((50, 50))  # Ajustar tamaño de la imagen
-                        photo = ImageTk.PhotoImage(img)
-                        img_label = tk.Label(article_frame, image=photo, bg="white")
-                        img_label.image = photo  # Necesario para evitar que la imagen sea recolectada por el garbage collector
-                        img_label.pack(side=tk.LEFT, padx=5)
-                    except Exception as e:
-                        print(f"No se pudo cargar la imagen: {e}")
+                    # Mostrar imagen si está disponible
+                    if 'image_url' in article and article['image_url']:
+                        try:
+                            img_data = requests.get(article['image_url']).content
+                            img = Image.open(io.BytesIO(img_data))
+                            img = img.resize((100, 100))  # Ajustar tamaño de la imagen
+                            photo = ImageTk.PhotoImage(img)
+                            img_label = tk.Label(article_frame, image=photo, bg="white")
+                            img_label.image = photo  # Mantener referencia para evitar recolección de basura
+                            img_label.pack(side=tk.LEFT, padx=10)
+                        except Exception as e:
+                            print(f"No se pudo cargar la imagen: {e}")
 
-                headline = tk.Label(
-                    article_frame, text=article['title'], wraplength=400, justify=tk.LEFT, bg="white", font=("Arial", 12)
-                )
-                headline.pack(anchor="w", padx=5)
+                    # Mostrar el título de la noticia
+                    headline = tk.Label(
+                        article_frame, text=article['title'], wraplength=600, justify=tk.LEFT, bg="white", font=("Arial", 14, "bold")
+                    )
+                    headline.pack(anchor="w", padx=10, pady=5)
+
+                    # Mostrar la descripción si está disponible
+                    if 'description' in article and article['description']:
+                        description = tk.Label(
+                            article_frame, text=article['description'], wraplength=600, justify=tk.LEFT, bg="white", font=("Arial", 12)
+                        )
+                        description.pack(anchor="w", padx=10, pady=5)
         except Exception as e:
-            error_label = tk.Label(frame, text=f"Error al obtener noticias: {e}", bg="white", fg="red")
+            error_label = tk.Label(scrollable_frame, text=f"Error al obtener noticias: {e}", bg="white", fg="red")
             error_label.pack(pady=10)
 
     def play_hide_and_seek(self):
@@ -245,8 +267,6 @@ class Assistant:
         dirt_window.geometry(f"100x100+{x}+{y}")
         dirt_window.overrideredirect(1)
         dirt_window.attributes('-topmost', True)
-        dirt_window.attributes('-transparentcolor', 'white')  # Fondo transparente
-
         dirt_canvas = tk.Canvas(dirt_window, width=100, height=100, bg="white", highlightthickness=0)
         dirt_canvas.pack()
 
