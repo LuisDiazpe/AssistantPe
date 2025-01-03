@@ -1,7 +1,7 @@
 import tkinter as tk
 import random
 import time
-import pyautogui  
+import pyautogui  # Para trabajar con coordenadas de pantalla globales
 import requests  # Para obtener noticias desde una API
 import math
 
@@ -31,6 +31,7 @@ class Assistant:
         self.speed = 5  # Velocidad inicial
         self.following = False
         self.mouse_captured = False
+        self.hidden = False
 
         # Evento para clic en el personaje
         self.canvas.tag_bind(self.character, "<Button-1>", self.show_menu)
@@ -42,6 +43,9 @@ class Assistant:
         self.schedule_mouse_chase()
 
     def move_character(self):
+        if self.hidden:  # Detener movimiento si el asistente está escondido
+            return
+
         # Obtener posición actual de la ventana
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
@@ -172,27 +176,37 @@ class Assistant:
         # Crear una nueva ventana para mostrar las noticias
         news_window = tk.Toplevel(self.root)
         news_window.title("Noticias")
-        news_window.geometry("400x600")
+        news_window.geometry("600x800")
 
         # Marco para las noticias
         frame = tk.Frame(news_window, bg="white")
         frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         # Etiqueta de título
-        title = tk.Label(frame, text="Últimas Noticias", font=("Arial", 16), bg="white")
+        title = tk.Label(frame, text="Últimas Noticias de Perú", font=("Arial", 18), bg="white")
         title.pack(pady=10)
 
         # Obtener noticias desde la API
         try:
             api_key = "6c8be6de99d6477e872492194efd7d14"  
-            url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}"
+            url = f"https://newsapi.org/v2/top-headlines?country=pe&apiKey={api_key}"
             response = requests.get(url)
             news = response.json()
 
-            # Mostrar las primeras noticias
+            # Mostrar las primeras noticias con imágenes
             for article in news['articles'][:10]:
-                headline = tk.Label(frame, text=f"- {article['title']}", wraplength=350, justify=tk.LEFT, bg="white")
-                headline.pack(anchor="w", pady=5)
+                article_frame = tk.Frame(frame, bg="white", relief=tk.RIDGE, borderwidth=1)
+                article_frame.pack(fill=tk.X, pady=5)
+
+                if article['urlToImage']:
+                    img_url = article['urlToImage']
+                    img_label = tk.Label(article_frame, text="[Imagen]", bg="white", fg="blue")  # Placeholder
+                    img_label.pack(side=tk.LEFT, padx=5)
+
+                headline = tk.Label(
+                    article_frame, text=article['title'], wraplength=400, justify=tk.LEFT, bg="white", font=("Arial", 12)
+                )
+                headline.pack(anchor="w", padx=5)
         except Exception as e:
             error_label = tk.Label(frame, text=f"Error al obtener noticias: {e}", bg="white", fg="red")
             error_label.pack(pady=10)
@@ -209,6 +223,7 @@ class Assistant:
 
         def hide():
             # Mover al escondite y mostrar "trozos de tierra"
+            self.hidden = True
             self.root.geometry(f"+{hide_x}+{hide_y}")
             self.canvas.itemconfig(self.character, fill="white")  # Hacer al personaje invisible
             self.animate_dirt_effect(hide_x, hide_y)
@@ -216,40 +231,35 @@ class Assistant:
         self.root.after(5000, hide)
 
     def animate_dirt_effect(self, x, y):
-        # Crear una animación de bloques de tierra tipo "Minecraft"
+        # Crear una animación de bloques de tierra que aparezcan continuamente hasta ser encontrado
         dirt_window = tk.Toplevel(self.root)
         dirt_window.geometry(f"100x100+{x}+{y}")
         dirt_window.overrideredirect(1)
         dirt_window.attributes('-topmost', True)
+        dirt_window.attributes('-transparentcolor', 'white')  # Fondo transparente
+
         dirt_canvas = tk.Canvas(dirt_window, width=100, height=100, bg="white", highlightthickness=0)
         dirt_canvas.pack()
 
-        # Crear bloques de tierra
-        blocks = []
-        for i in range(3):
-            for j in range(3):
-                block = dirt_canvas.create_rectangle(
-                    j * 30 + 5, i * 30 + 5, j * 30 + 25, i * 30 + 25, fill="brown", outline="black"
-                )
-                blocks.append(block)
+        # Animar bloques de tierra apareciendo
+        def create_block():
+            block = dirt_canvas.create_rectangle(
+                random.randint(0, 90), random.randint(0, 90), random.randint(10, 100), random.randint(10, 100),
+                fill="brown", outline="black"
+            )
+            dirt_canvas.after(300, lambda: dirt_canvas.delete(block))  # Eliminar el bloque después de un tiempo
+            if self.hidden:
+                dirt_canvas.after(500, create_block)  # Continuar creando bloques si no ha sido encontrado
 
-        def animate_blocks():
-            if blocks:
-                block = blocks.pop(0)
-                dirt_canvas.delete(block)
-                self.root.after(100, animate_blocks)
-            else:
-                dirt_window.destroy()
-
-        animate_blocks()
-
-        # Permitir que el usuario haga clic para revelar al personaje
         def found():
+            self.hidden = False
             self.canvas.itemconfig(self.character, fill="blue")  # Hacer al personaje visible
-            dirt_window.destroy()
+            dirt_window.destroy()  # Eliminar el canvas de tierra
+            self.move_character()  # Reanudar el movimiento
             print("¡Me encontraste!")
 
-        dirt_window.bind("<Button-1>", lambda e: found())
+        dirt_canvas.bind("<Button-1>", lambda e: found())
+        create_block()
 
     def show_transparent_countdown(self, seconds):
         # Crear una ventana completamente transparente
