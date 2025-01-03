@@ -145,30 +145,53 @@ class Assistant:
             error_label.pack(pady=10)
 
     def play_hide_and_seek(self):
-        # Ocultar el personaje y mostrar una pista interactiva
         print("Jugar a las escondidas...")
-        self.canvas.itemconfig(self.character, fill="white")  # Cambiar a invisible
 
         # Elegir un punto al azar en la pantalla para "esconderse"
-        hide_x = random.randint(50, self.screen_width - 50)
-        hide_y = random.randint(50, self.screen_height - 50)
+        hide_x = random.randint(50, self.screen_width - 150)
+        hide_y = random.randint(50, self.screen_height - 150)
 
-        # Crear una señal visible donde se escondió
-        signal = tk.Toplevel(self.root)
-        signal.geometry(f"+{hide_x}+{hide_y}")
-        signal.overrideredirect(1)
-        signal.attributes('-topmost', True)
+        # Iniciar movimiento hacia el escondite al mismo tiempo que la cuenta regresiva
+        self.show_transparent_countdown(5)
 
-        signal_label = tk.Label(signal, text="¡Estoy aquí!", fg="red", font=("Arial", 14))
-        signal_label.pack()
+        def move_to_hide():
+            char_x, char_y = self.get_center()
+            dx = (hide_x - char_x) / 20
+            dy = (hide_y - char_y) / 20
+            
+            new_x = self.root.winfo_x() + dx
+            new_y = self.root.winfo_y() + dy
+            
+            self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
 
-        # Evento para encontrar al personaje
-        def found():
-            self.canvas.itemconfig(self.character, fill="blue")  # Volver a visible
-            signal.destroy()
-            print("¡Me encontraste!")
+            # Verificar si ha llegado al punto de escondite
+            if abs(hide_x - char_x) < 10 and abs(hide_y - char_y) < 10:
+                self.canvas.itemconfig(self.character, fill="white")  # Cambiar a invisible
+            else:
+                self.root.after(30, move_to_hide)
 
-        signal.bind("<Button-1>", lambda e: found())
+        move_to_hide()
+
+    def show_transparent_countdown(self, seconds):
+        # Crear una ventana completamente transparente
+        countdown_window = tk.Toplevel(self.root)
+        countdown_window.overrideredirect(1)
+        countdown_window.attributes('-topmost', True)
+        countdown_window.attributes('-transparentcolor', 'black')
+        countdown_window.geometry(f"{self.screen_width}x{self.screen_height}+0+0")
+
+        # Agregar el texto como cuenta regresiva
+        countdown_label = tk.Label(countdown_window, text="", font=("Arial", 48), fg="red", bg="black")
+        countdown_label.pack(expand=True)
+
+        def update_countdown(remaining):
+            if remaining > 0:
+                countdown_label.config(text=f"Espérame {remaining} segundos")
+                self.root.after(1000, update_countdown, remaining - 1)
+            else:
+                countdown_window.destroy()
+
+        update_countdown(seconds)
 
     def close_assistant(self):
         # Cerrar la aplicación
