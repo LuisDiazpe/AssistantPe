@@ -1,8 +1,8 @@
 import tkinter as tk
 import random
 import time
-import pyautogui  
-import requests  
+import pyautogui  # Para trabajar con coordenadas de pantalla globales
+import requests  # Para obtener noticias desde una API
 
 class Assistant:
     def __init__(self, root):
@@ -101,24 +101,39 @@ class Assistant:
     def show_menu(self, event):
         # Mostrar un menú con opciones
         menu = tk.Menu(self.root, tearoff=0)
-        menu.add_command(label="Noticias", command=self.show_news)
+        menu.add_command(label="Noticias", command=self.show_news_interface)
         menu.add_command(label="Jugar a las escondidas", command=self.play_hide_and_seek)
+        menu.add_command(label="Cerrar", command=self.close_assistant)
         menu.post(event.x_root, event.y_root)
 
-    def show_news(self):
+    def show_news_interface(self):
+        # Crear una nueva ventana para mostrar las noticias
+        news_window = tk.Toplevel(self.root)
+        news_window.title("Noticias")
+        news_window.geometry("400x600")
+
+        # Marco para las noticias
+        frame = tk.Frame(news_window, bg="white")
+        frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+        # Etiqueta de título
+        title = tk.Label(frame, text="Últimas Noticias", font=("Arial", 16), bg="white")
+        title.pack(pady=10)
+
+        # Obtener noticias desde la API
         try:
-            # Obtener noticias desde una API
-            api_key = ""  
+            api_key = "your_news_api_key"  # Reemplaza con tu clave de NewsAPI
             url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}"
             response = requests.get(url)
             news = response.json()
 
             # Mostrar las primeras noticias
-            headlines = [article['title'] for article in news['articles'][:5]]
-            news_text = "\n".join(headlines)
-            print("Noticias recientes:\n", news_text)
+            for article in news['articles'][:10]:
+                headline = tk.Label(frame, text=f"- {article['title']}", wraplength=350, justify=tk.LEFT, bg="white")
+                headline.pack(anchor="w", pady=5)
         except Exception as e:
-            print("Error al obtener noticias:", e)
+            error_label = tk.Label(frame, text=f"Error al obtener noticias: {e}", bg="white", fg="red")
+            error_label.pack(pady=10)
 
     def play_hide_and_seek(self):
         # Animación de esconderse
@@ -134,6 +149,11 @@ class Assistant:
             self.canvas.delete(signal)
 
         self.root.after(5000, reappear)  # Reaparecer después de 5 segundos
+
+    def close_assistant(self):
+        # Cerrar la aplicación
+        print("Cerrando asistente...")
+        self.root.destroy()
 
 # Inicializar la aplicación
 if __name__ == "__main__":
