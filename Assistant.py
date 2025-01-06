@@ -1,8 +1,8 @@
 import tkinter as tk
 import random
 import time
-import pyautogui  
-import requests  # Para obtener noticias desde una API
+import pyautogui 
+import requests  
 import math
 from PIL import Image, ImageTk
 import io
@@ -135,7 +135,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo
+            self.angle += random.uniform(-0.1, 0.1) 
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -190,7 +190,7 @@ class Assistant:
     def add_category_button(self, parent, text, category, image_path):
         try:
             img = Image.open(image_path)
-            img = img.resize((300, 80)) 
+            img = img.resize((300, 80))  # Ajustar tamaño de fondo
             photo = ImageTk.PhotoImage(img)
         except Exception as e:
             print(f"No se pudo cargar la imagen {image_path}: {e}")
@@ -230,7 +230,7 @@ class Assistant:
 
         # Obtener noticias desde la API
         try:
-            api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI proporcionada
+            api_key = "pub_63621582321df3583172d78579eaf41a4319b"  
             if category == "peru":
                 url = f"https://newsdata.io/api/1/news?country=pe&language=es&apikey={api_key}"
             else:
@@ -314,7 +314,7 @@ class Assistant:
             city = location_data.get("city", "Desconocida")
 
             # Obtener clima usando una API de clima
-            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API actualizada
+            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API 
             weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&lang=es&appid={api_key}"
             weather_response = requests.get(weather_url)
             weather_data = weather_response.json()
@@ -322,9 +322,9 @@ class Assistant:
             if weather_response.status_code == 200:
                 temp = weather_data["main"]["temp"]
                 description = weather_data["weather"][0]["description"].capitalize()
-                label = tk.Label(weather_window, text=f"Clima en {city}:", font=("Arial", 24, "bold"), bg="lightblue")
+                label = tk.Label(weather_window, text=f"Clima en {city}:", font=("Arial", 16, "bold"), bg="lightblue")
                 label.pack(pady=10)
-                temp_label = tk.Label(weather_window, text=f"{temp}°C, {description}", font=("Arial", 22), bg="lightblue")
+                temp_label = tk.Label(weather_window, text=f"{temp}°C, {description}", font=("Arial", 14), bg="lightblue")
                 temp_label.pack(pady=10)
 
             else:
