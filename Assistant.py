@@ -45,6 +45,9 @@ class Assistant:
         # Iniciar temporizador para persecución
         self.schedule_mouse_chase()
 
+        # Iniciar temporizador para mostrar memes
+        self.schedule_memes()
+
     def move_character(self):
         if self.hidden:  # Detener movimiento si el asistente está escondido
             return
@@ -53,6 +56,7 @@ class Assistant:
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
 
+        # Simular pausas breves para comportamiento natural
         if random.random() < 0.01:  # Pausa breve
             self.root.after(300, self.move_character)
             return
@@ -89,6 +93,47 @@ class Assistant:
             self.root.after(30 * 60 * 1000, check_chase)  # Reintentar en 30 minutos
 
         self.root.after(30 * 60 * 1000, check_chase)  # Primera ejecución en 30 minutos
+
+    def schedule_memes(self):
+        # Configurar para que cada 17 minutos verifique si muestra un meme
+        def show_random_meme():
+            if random.random() < 0.7:  # 70% de probabilidad
+                self.display_meme()
+            self.root.after(17 * 60 * 1000, show_random_meme)  # Reintentar en 17 minutos
+
+        self.root.after(17 * 60 * 1000, show_random_meme)  # Primera ejecución en 17 minutos
+
+    def display_meme(self):
+        meme_window = tk.Toplevel(self.root)
+        meme_window.geometry(f"+{-200}+{random.randint(0, self.screen_height - 300)}")
+        meme_window.overrideredirect(1)
+        meme_window.attributes('-topmost', True)
+
+        # Buscar un meme en Google utilizando una ventana del navegador
+        def open_google_meme():
+            search_query = "meme random"
+            url = f"https://www.google.com/search?q={search_query}&tbm=isch"
+
+            def animate_browser():
+                current_x = -200
+                target_x = 50
+                step = 10
+
+                def move():
+                    nonlocal current_x
+                    if current_x < target_x:
+                        current_x += step
+                        meme_window.geometry(f"+{current_x}+{meme_window.winfo_y()}")
+                        self.root.after(30, move)
+                    else:
+                        webbrowser.open(url)
+                        self.root.after(4000, meme_window.destroy)  # Cerrar ventana después de mostrar meme
+
+                move()
+
+            animate_browser()
+
+        open_google_meme()
 
     def start_mouse_chase(self):
         self.following = True
@@ -134,7 +179,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo
+            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo para simular movimiento natural
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -159,7 +204,7 @@ class Assistant:
             print("Mouse liberado")
 
         move_with_mouse()
-        self.root.after(11000, release_mouse)  # Soltar el mouse después de 11 segundos
+        self.root.after(10000, release_mouse)  # Soltar el mouse después de 10 segundos
 
     def get_center(self):
         window_x = self.root.winfo_x()
@@ -235,7 +280,7 @@ class Assistant:
 
             # Obtener noticias desde la API
             try:
-                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI 
+                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI
                 if category == "peru":
                     url = f"https://newsdata.io/api/1/news?country=pe&language=es&apikey={api_key}"
                 else:
@@ -272,7 +317,7 @@ class Assistant:
                             try:
                                 img_data = requests.get(article['image_url']).content
                                 img = Image.open(io.BytesIO(img_data))
-                                img = img.resize((100, 100)) 
+                                img = img.resize((100, 100))  # Ajustar tamaño de la imagen
                                 photo = ImageTk.PhotoImage(img)
                                 img_label = tk.Label(article_frame, image=photo, bg="white")
                                 img_label.image = photo  # Mantener referencia para evitar recolección de basura
