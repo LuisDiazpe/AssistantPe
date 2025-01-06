@@ -1,7 +1,7 @@
 import tkinter as tk
 import random
 import time
-import pyautogui  # Para trabajar con coordenadas de pantalla globales
+import pyautogui  
 import requests  # Para obtener noticias desde una API
 import math
 from PIL import Image, ImageTk
@@ -135,7 +135,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo para simular movimiento natural
+            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -190,7 +190,7 @@ class Assistant:
     def add_category_button(self, parent, text, category, image_path):
         try:
             img = Image.open(image_path)
-            img = img.resize((300, 80))  # Ajustar tamaño de fondo
+            img = img.resize((300, 80)) 
             photo = ImageTk.PhotoImage(img)
         except Exception as e:
             print(f"No se pudo cargar la imagen {image_path}: {e}")
@@ -322,25 +322,91 @@ class Assistant:
             if weather_response.status_code == 200:
                 temp = weather_data["main"]["temp"]
                 description = weather_data["weather"][0]["description"].capitalize()
-                label = tk.Label(weather_window, text=f"Clima en {city}:", font=("Arial", 14, "bold"), bg="lightblue")
+                label = tk.Label(weather_window, text=f"Clima en {city}:", font=("Arial", 24, "bold"), bg="lightblue")
                 label.pack(pady=10)
-                temp_label = tk.Label(weather_window, text=f"{temp}°C, {description}", font=("Arial", 12), bg="lightblue")
+                temp_label = tk.Label(weather_window, text=f"{temp}°C, {description}", font=("Arial", 22), bg="lightblue")
                 temp_label.pack(pady=10)
 
+            else:
+                error_label = tk.Label(weather_window, text="No se pudo obtener el clima.", bg="lightblue", fg="red")
+                error_label.pack(pady=10)
         except Exception as e:
             error_label = tk.Label(weather_window, text=f"Error al obtener datos: {e}", bg="lightblue", fg="red")
             error_label.pack(pady=10)
 
     def play_hide_and_seek(self):
         print("Jugar a las escondidas...")
-        # Lógica simplificada para esconderse
+
+        # Elegir un punto aleatorio donde se esconderá
         hide_x = random.randint(50, self.screen_width - 150)
         hide_y = random.randint(50, self.screen_height - 150)
-        self.hidden = True
-        self.root.geometry(f"+{hide_x}+{hide_y}")
-        self.canvas.itemconfig(self.character, fill="white")  # Invisible
+
+        # Mostrar el mensaje de cuenta regresiva y moverse al escondite
+        self.show_transparent_countdown(5)
+
+        def hide():
+            # Mover al escondite y mostrar "trozos de tierra"
+            self.hidden = True
+            self.root.geometry(f"+{hide_x}+{hide_y}")
+            self.canvas.itemconfig(self.character, fill="white")  # Hacer al personaje invisible
+            self.animate_dirt_effect(hide_x, hide_y)
+
+        self.root.after(5000, hide)
+
+    def animate_dirt_effect(self, x, y):
+        # Crear una animación de bloques de tierra que aparezcan continuamente hasta ser encontrado
+        dirt_window = tk.Toplevel(self.root)
+        dirt_window.geometry(f"100x100+{x}+{y}")
+        dirt_window.overrideredirect(1)
+        dirt_window.attributes('-topmost', True)
+        dirt_window.attributes('-transparentcolor', 'white')  # Fondo transparente
+        dirt_canvas = tk.Canvas(dirt_window, width=100, height=100, bg="white", highlightthickness=0)
+        dirt_canvas.pack()
+
+        # Animar bloques de tierra apareciendo
+        def create_block():
+            block = dirt_canvas.create_rectangle(
+                random.randint(0, 90), random.randint(0, 90), random.randint(10, 100), random.randint(10, 100),
+                fill="brown", outline="black"
+            )
+            dirt_canvas.after(300, lambda: dirt_canvas.delete(block))  # Eliminar el bloque después de un tiempo
+            if self.hidden:
+                dirt_canvas.after(500, create_block)  # Continuar creando bloques si no ha sido encontrado
+
+        def found():
+            self.hidden = False
+            self.canvas.itemconfig(self.character, fill="blue")  # Hacer al personaje visible
+            dirt_window.destroy()  # Eliminar el canvas de tierra
+            self.move_character()  # Reanudar el movimiento
+            print("¡Me encontraste!")
+
+        dirt_canvas.bind("<Button-1>", lambda e: found())
+        create_block()
+
+    def show_transparent_countdown(self, seconds):
+        # Crear una ventana completamente transparente
+        countdown_window = tk.Toplevel(self.root)
+        countdown_window.overrideredirect(1)
+        countdown_window.attributes('-topmost', True)
+        countdown_window.attributes('-transparentcolor', 'black')
+        countdown_window.geometry(f"{self.screen_width}x{self.screen_height}+0+0")
+
+        # Agregar el texto como cuenta regresiva
+        countdown_label = tk.Label(countdown_window, text="", font=("Arial", 63), fg="red", bg="black")
+        countdown_label.pack(expand=True)
+
+        def update_countdown(remaining):
+            if remaining > 0:
+                countdown_label.config(text=f"Espérame {remaining} segundos")
+                self.root.after(1000, update_countdown, remaining - 1)
+            else:
+                countdown_window.destroy()
+
+        update_countdown(seconds)
 
     def close_assistant(self):
+        # Cerrar la aplicación
+        print("Cerrando asistente...")
         self.root.destroy()
 
 # Inicializar la aplicación
