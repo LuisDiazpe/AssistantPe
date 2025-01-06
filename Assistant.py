@@ -1,7 +1,7 @@
 import tkinter as tk
 import random
 import time
-import pyautogui 
+import pyautogui  
 import requests  
 import math
 from PIL import Image, ImageTk
@@ -53,7 +53,6 @@ class Assistant:
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
 
-        # Simular pausas breves para comportamiento natural
         if random.random() < 0.01:  # Pausa breve
             self.root.after(300, self.move_character)
             return
@@ -135,7 +134,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1) 
+            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -160,7 +159,7 @@ class Assistant:
             print("Mouse liberado")
 
         move_with_mouse()
-        self.root.after(10000, release_mouse)  # Soltar el mouse después de 10 segundos
+        self.root.after(11000, release_mouse)  # Soltar el mouse después de 11 segundos
 
     def get_center(self):
         window_x = self.root.winfo_x()
@@ -228,77 +227,102 @@ class Assistant:
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
 
-        # Obtener noticias desde la API
-        try:
-            api_key = "pub_63621582321df3583172d78579eaf41a4319b"  
-            if category == "peru":
-                url = f"https://newsdata.io/api/1/news?country=pe&language=es&apikey={api_key}"
-            else:
-                category_map = {
-                    "international": "world",
-                    "sports": "sports",
-                }
-                language_map = {
-                    "international": "es,en,pt,it",
-                    "sports": "es,en",
-                }
-                selected_category = category_map.get(category, "world")
-                languages = language_map.get(category, "en")
-                url = f"https://newsdata.io/api/1/news?category={selected_category}&language={languages}&apikey={api_key}"
+        loading_label = tk.Label(news_window, text="Cargando noticias...", font=("Arial", 14), bg="lightgray")
+        loading_label.pack(pady=10)
 
-            response = requests.get(url)
-            response.raise_for_status()  # Lanzar excepción si la respuesta HTTP contiene un error
-            news = response.json()
+        def fetch_and_display_news():
+            loading_label.destroy()
 
-            # Validar que existan resultados
-            if not news.get('results'):
-                error_label = tk.Label(scrollable_frame, text="No se encontraron noticias.", bg="white", fg="red")
-                error_label.pack(pady=10)
-                return
+            # Obtener noticias desde la API
+            try:
+                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI 
+                if category == "peru":
+                    url = f"https://newsdata.io/api/1/news?country=pe&language=es&apikey={api_key}"
+                else:
+                    category_map = {
+                        "international": "world",
+                        "sports": "sports",
+                    }
+                    language_map = {
+                        "international": "es,en,pt,it",
+                        "sports": "es,en",
+                    }
+                    selected_category = category_map.get(category, "world")
+                    languages = language_map.get(category, "en")
+                    url = f"https://newsdata.io/api/1/news?category={selected_category}&language={languages}&apikey={api_key}"
 
-            # Mostrar las primeras noticias con enlaces
-            for article in news.get('results', []):
-                if 'title' in article and article['title']:
-                    article_frame = tk.Frame(scrollable_frame, bg="white", relief=tk.RIDGE, borderwidth=2)
-                    article_frame.pack(fill=tk.X, pady=10, padx=10)
+                response = requests.get(url)
+                response.raise_for_status()  # Lanzar excepción si la respuesta HTTP contiene un error
+                news = response.json()
 
-                    # Mostrar imagen si está disponible
-                    if 'image_url' in article and article['image_url']:
-                        try:
-                            img_data = requests.get(article['image_url']).content
-                            img = Image.open(io.BytesIO(img_data))
-                            img = img.resize((100, 100))  # Ajustar tamaño de la imagen
-                            photo = ImageTk.PhotoImage(img)
-                            img_label = tk.Label(article_frame, image=photo, bg="white")
-                            img_label.image = photo  # Mantener referencia para evitar recolección de basura
-                            img_label.pack(side=tk.LEFT, padx=10)
-                        except Exception as e:
-                            print(f"No se pudo cargar la imagen: {e}")
+                # Validar que existan resultados
+                if not news.get('results'):
+                    error_label = tk.Label(scrollable_frame, text="No se encontraron noticias.", bg="white", fg="red")
+                    error_label.pack(pady=10)
+                    return
 
-                    # Mostrar el título de la noticia
-                    headline = tk.Label(
-                        article_frame, text=article['title'], wraplength=600, justify=tk.LEFT, bg="white", font=("Arial", 14, "bold"), fg="blue", cursor="hand2"
-                    )
-                    headline.pack(anchor="w", padx=10, pady=5)
+                # Mostrar las primeras noticias con enlaces
+                for article in news.get('results', []):
+                    if 'title' in article and article['title']:
+                        article_frame = tk.Frame(scrollable_frame, bg="white", relief=tk.RIDGE, borderwidth=2)
+                        article_frame.pack(fill=tk.X, pady=10, padx=10)
 
-                    def open_article(url=article.get('link', '#')):
-                        if url != "#":
-                            webbrowser.open(url)
+                        # Mostrar imagen si está disponible
+                        if 'image_url' in article and article['image_url']:
+                            try:
+                                img_data = requests.get(article['image_url']).content
+                                img = Image.open(io.BytesIO(img_data))
+                                img = img.resize((100, 100)) 
+                                photo = ImageTk.PhotoImage(img)
+                                img_label = tk.Label(article_frame, image=photo, bg="white")
+                                img_label.image = photo  # Mantener referencia para evitar recolección de basura
+                                img_label.pack(side=tk.LEFT, padx=10)
+                            except Exception as e:
+                                print(f"No se pudo cargar la imagen: {e}")
 
-                    headline.bind("<Button-1>", lambda e, url=article.get('link', '#'): open_article(url))
-
-                    # Mostrar la descripción si está disponible
-                    if 'description' in article and article['description']:
-                        description = tk.Label(
-                            article_frame, text=article['description'], wraplength=600, justify=tk.LEFT, bg="white", font=("Arial", 12)
+                        # Mostrar el título de la noticia
+                        headline = tk.Label(
+                            article_frame, text=article['title'], wraplength=600, justify=tk.LEFT, bg="white", font=("Arial", 14, "bold"), fg="blue", cursor="hand2"
                         )
-                        description.pack(anchor="w", padx=10, pady=5)
-        except requests.RequestException as e:
-            error_label = tk.Label(scrollable_frame, text=f"Error al obtener noticias: {e}", bg="white", fg="red")
-            error_label.pack(pady=10)
-        except Exception as e:
-            error_label = tk.Label(scrollable_frame, text=f"Error inesperado: {e}", bg="white", fg="red")
-            error_label.pack(pady=10)
+                        headline.pack(anchor="w", padx=10, pady=5)
+
+                        def open_article(url=article.get('link', '#')):
+                            if url != "#":
+                                webbrowser.open(url)
+
+                        headline.bind("<Button-1>", lambda e, url=article.get('link', '#'): open_article(url))
+
+                        # Mostrar la descripción si está disponible
+                        if 'description' in article and article['description']:
+                            description = tk.Label(
+                                article_frame, text=article['description'], wraplength=600, justify=tk.LEFT, bg="white", font=("Arial", 12)
+                            )
+                            description.pack(anchor="w", padx=10, pady=5)
+            except requests.RequestException as e:
+                error_label = tk.Label(scrollable_frame, text=f"Error al obtener noticias: {e}", bg="white", fg="red")
+                error_label.pack(pady=10)
+            except Exception as e:
+                error_label = tk.Label(scrollable_frame, text=f"Error inesperado: {e}", bg="white", fg="red")
+                error_label.pack(pady=10)
+
+        # Simulación de movimiento del asistente hacia las noticias
+        def simulate_assistant_fetching():
+            current_x = self.root.winfo_x()
+            target_x = self.screen_width - 200
+            step = 10 if current_x < target_x else -10
+
+            def move():
+                nonlocal current_x
+                if (step > 0 and current_x < target_x) or (step < 0 and current_x > target_x):
+                    current_x += step
+                    self.root.geometry(f"+{current_x}+{self.root.winfo_y()}")
+                    self.root.after(50, move)
+                else:
+                    fetch_and_display_news()
+
+            move()
+
+        simulate_assistant_fetching()
 
     def show_weather(self):
         # Mostrar clima basado en ubicación
@@ -314,7 +338,7 @@ class Assistant:
             city = location_data.get("city", "Desconocida")
 
             # Obtener clima usando una API de clima
-            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API 
+            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API
             weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&lang=es&appid={api_key}"
             weather_response = requests.get(weather_url)
             weather_data = weather_response.json()
