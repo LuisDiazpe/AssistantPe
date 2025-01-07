@@ -2,7 +2,7 @@ import tkinter as tk
 import random
 import time
 import pyautogui  
-import requests  
+import requests  # Para obtener noticias desde una API
 import math
 from PIL import Image, ImageTk
 import io
@@ -23,11 +23,11 @@ class Assistant:
         self.screen_height = pyautogui.size().height
 
         # Configuración del canvas con fondo transparente
-        self.canvas = tk.Canvas(self.root, width=100, height=100, bg="white", highlightthickness=0)
+        self.canvas = tk.Canvas(self.root, width=100, height=170, bg="white", highlightthickness=0)
         self.canvas.pack()
 
-        # Crear personaje
-        self.character = self.canvas.create_oval(10, 10, 90, 90, fill="blue", outline="black")
+        # Dibujar personaje completo
+        self.draw_character()
 
         # Variables de movimiento
         self.angle = random.uniform(0, 2 * math.pi)  # Ángulo de dirección inicial
@@ -37,7 +37,7 @@ class Assistant:
         self.hidden = False
 
         # Evento para clic en el personaje
-        self.canvas.tag_bind(self.character, "<Button-1>", self.show_menu)
+        self.canvas.tag_bind("character", "<Button-1>", self.show_menu)
 
         # Movimiento inicial
         self.move_character()
@@ -47,6 +47,144 @@ class Assistant:
 
         # Iniciar temporizador para mostrar memes
         self.schedule_memes()
+
+    def draw_character(self):
+        # Dibujar la cabeza
+        self.canvas.create_oval(25, 10, 75, 60, fill="#D2B48C", outline="black", tags="character")  # Tono trigueño
+
+        # Dibujar los ojos
+        self.canvas.create_oval(40, 25, 50, 35, fill="white", outline="black", tags="character")  # Ojo izquierdo
+        self.canvas.create_oval(60, 25, 70, 35, fill="white", outline="black", tags="character")  # Ojo derecho
+        self.canvas.create_oval(45, 30, 47, 32, fill="black", tags="character")  # Pupila izquierda
+        self.canvas.create_oval(65, 30, 67, 32, fill="black", tags="character")  # Pupila derecha
+
+        # Dibujar la nariz
+        self.canvas.create_line(55, 35, 55, 45, fill="black", width=2, tags="character")
+
+        # Dibujar la boca
+        self.canvas.create_arc(45, 45, 65, 55, start=0, extent=-180, fill="red", outline="black", tags="character")
+
+        # Dibujar cabello
+        self.canvas.create_arc(25, 10, 75, 50, start=0, extent=180, fill="black", outline="black", tags="character")
+
+        # Dibujar el cuerpo
+        self.canvas.create_rectangle(35, 60, 65, 120, fill="blue", outline="black", tags="character")  # Camisa
+        
+        # Dibujar los brazos
+        self.canvas.create_rectangle(20, 70, 35, 90, fill="blue", outline="black", tags="character")  # Brazo izquierdo
+        self.canvas.create_rectangle(65, 70, 80, 90, fill="blue", outline="black", tags="character")  # Brazo derecho
+
+        # Dibujar las piernas
+        self.canvas.create_rectangle(35, 120, 50, 170, fill="brown", outline="black", tags="character")  # Pierna izquierda
+        self.canvas.create_rectangle(50, 120, 65, 170, fill="brown", outline="black", tags="character")  # Pierna derecha
+
+    def hide_character(self):
+        self.canvas.itemconfig("character", state="hidden")
+
+    def show_character(self):
+        self.canvas.itemconfig("character", state="normal")
+
+    def play_hide_and_seek(self):
+        print("Jugar a las escondidas...")
+
+        # Elegir un punto aleatorio donde se esconderá
+        hide_x = random.randint(50, self.screen_width - 150)
+        hide_y = random.randint(50, self.screen_height - 150)
+
+        # Mostrar el mensaje de cuenta regresiva y moverse al escondite
+        self.show_transparent_countdown(5)
+
+        def hide():
+            # Mover al escondite y mostrar "trozos de tierra"
+            self.hidden = True
+            self.root.geometry(f"+{hide_x}+{hide_y}")
+            self.hide_character()  # Hacer al personaje invisible
+            self.animate_dirt_effect(hide_x, hide_y)
+
+        self.root.after(5000, hide)
+
+    def animate_dirt_effect(self, x, y):
+        # Crear una animación de bloques de tierra que aparezcan continuamente hasta ser encontrado
+        dirt_window = tk.Toplevel(self.root)
+        dirt_window.geometry(f"100x100+{x}+{y}")
+        dirt_window.overrideredirect(1)
+        dirt_window.attributes('-topmost', True)
+        dirt_window.attributes('-transparentcolor', 'white')  
+        dirt_canvas = tk.Canvas(dirt_window, width=100, height=100, bg="white", highlightthickness=0)
+        dirt_canvas.pack()
+
+        # Animar bloques de tierra apareciendo
+        def create_block():
+            if not self.hidden:
+                return  # Detener si el asistente ha sido encontrado
+
+            block = dirt_canvas.create_rectangle(
+                random.randint(10, 50), random.randint(10, 50), random.randint(50, 90), random.randint(50, 90),
+                fill="brown", outline="black"
+            )
+            dirt_canvas.after(300, lambda: dirt_canvas.delete(block))  # Eliminar el bloque después de un tiempo
+            dirt_canvas.after(500, create_block)  # Continuar creando bloques
+
+        def found():
+            self.hidden = False
+            self.show_character()  # Hacer al personaje visible
+            dirt_window.destroy()  # Eliminar el canvas de tierra
+            self.move_character()  # Reanudar el movimiento
+            print("¡Me encontraste!")
+
+        dirt_canvas.bind("<Button-1>", lambda e: found())
+        create_block()
+
+    def show_transparent_countdown(self, seconds):
+        # Crear una ventana completamente transparente
+        countdown_window = tk.Toplevel(self.root)
+        countdown_window.overrideredirect(1)
+        countdown_window.attributes('-topmost', True)
+        countdown_window.attributes('-transparentcolor', 'black')
+        countdown_window.geometry(f"{self.screen_width}x{self.screen_height}+0+0")
+
+        # Agregar el texto como cuenta regresiva
+        countdown_label = tk.Label(countdown_window, text="", font=("Arial", 63), fg="red", bg="black")
+        countdown_label.pack(expand=True)
+
+        def update_countdown(remaining):
+            if remaining > 0:
+                countdown_label.config(text=f"Espérame {remaining} segundos")
+                self.root.after(1000, update_countdown, remaining - 1)
+            else:
+                countdown_window.destroy()
+
+        update_countdown(seconds)
+
+    def draw_character(self):
+        # Dibujar la cabeza
+        self.canvas.create_oval(25, 10, 75, 60, fill="#D2B48C", outline="black", tags="character")  # Tono trigueño
+
+        # Dibujar los ojos
+        self.canvas.create_oval(40, 25, 50, 35, fill="white", outline="black", tags="character")  # Ojo izquierdo
+        self.canvas.create_oval(60, 25, 70, 35, fill="white", outline="black", tags="character")  # Ojo derecho
+        self.canvas.create_oval(45, 30, 47, 32, fill="black", tags="character")  # Pupila izquierda
+        self.canvas.create_oval(65, 30, 67, 32, fill="black", tags="character")  # Pupila derecha
+
+        # Dibujar la nariz
+        self.canvas.create_line(55, 35, 55, 45, fill="black", width=2, tags="character")
+
+        # Dibujar la boca
+        self.canvas.create_arc(45, 45, 65, 55, start=0, extent=-180, fill="red", outline="black", tags="character")
+
+        # Dibujar cabello
+        self.canvas.create_arc(25, 10, 75, 50, start=0, extent=180, fill="black", outline="black", tags="character")
+
+        # Dibujar el cuerpo
+        self.canvas.create_rectangle(35, 60, 65, 120, fill="blue", outline="black", tags="character")  # Camisa
+        
+        # Dibujar los brazos
+        self.canvas.create_rectangle(20, 70, 35, 90, fill="blue", outline="black", tags="character")  # Brazo izquierdo
+        self.canvas.create_rectangle(65, 70, 80, 90, fill="blue", outline="black", tags="character")  # Brazo derecho
+
+        # Dibujar las piernas
+        self.canvas.create_rectangle(35, 120, 50, 170, fill="brown", outline="black", tags="character")  # Pierna izquierda
+        self.canvas.create_rectangle(50, 120, 65, 170, fill="brown", outline="black", tags="character")  # Pierna derecha
 
     def move_character(self):
         if self.hidden:  # Detener movimiento si el asistente está escondido
@@ -74,9 +212,9 @@ class Assistant:
         if new_x <= 0 or new_x + 100 >= self.screen_width:
             self.angle = math.pi - self.angle  # Invertir ángulo horizontal
             new_x = max(0, min(self.screen_width - 100, new_x))
-        if new_y <= 0 or new_y + 100 >= self.screen_height:
+        if new_y <= 0 or new_y + 200 >= self.screen_height:
             self.angle = -self.angle  # Invertir ángulo vertical
-            new_y = max(0, min(self.screen_height - 100, new_y))
+            new_y = max(0, min(self.screen_height - 200, new_y))
 
         # Actualizar posición de la ventana
         self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
@@ -127,7 +265,7 @@ class Assistant:
                         self.root.after(30, move)
                     else:
                         webbrowser.open(url)
-                        self.root.after(4000, meme_window.destroy)  # Cerrar ventana después de mostrar meme
+                        self.root.after(5000, meme_window.destroy)  # Cerrar ventana después de mostrar meme
 
                 move()
 
@@ -158,7 +296,7 @@ class Assistant:
 
             # Ajustar límites para que no se salga de la pantalla
             new_x = max(0, min(self.screen_width - 100, new_x))
-            new_y = max(0, min(self.screen_height - 100, new_y))
+            new_y = max(0, min(self.screen_height - 200, new_y))
 
             self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
 
@@ -179,7 +317,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo para simular movimiento natural
+            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo 
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -188,7 +326,7 @@ class Assistant:
 
             # Ajustar límites para que no se salga de la pantalla
             new_x = max(0, min(self.screen_width - 100, new_x))
-            new_y = max(0, min(self.screen_height - 100, new_y))
+            new_y = max(0, min(self.screen_height - 200, new_y))
 
             # Actualizar posición del asistente y mover el mouse con él
             self.root.geometry(f"+{int(new_x)}+{int(new_y)}")
@@ -209,7 +347,7 @@ class Assistant:
     def get_center(self):
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
-        return window_x + 50, window_y + 50  # Centro del personaje
+        return window_x + 50, window_y + 100  # Centro del personaje
 
     def show_menu(self, event):
         # Mostrar un menú con opciones
@@ -383,7 +521,7 @@ class Assistant:
             city = location_data.get("city", "Desconocida")
 
             # Obtener clima usando una API de clima
-            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API
+            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API 
             weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&lang=es&appid={api_key}"
             weather_response = requests.get(weather_url)
             weather_data = weather_response.json()
@@ -403,75 +541,8 @@ class Assistant:
             error_label = tk.Label(weather_window, text=f"Error al obtener datos: {e}", bg="lightblue", fg="red")
             error_label.pack(pady=10)
 
-    def play_hide_and_seek(self):
-        print("Jugar a las escondidas...")
-
-        # Elegir un punto aleatorio donde se esconderá
-        hide_x = random.randint(50, self.screen_width - 150)
-        hide_y = random.randint(50, self.screen_height - 150)
-
-        # Mostrar el mensaje de cuenta regresiva y moverse al escondite
-        self.show_transparent_countdown(5)
-
-        def hide():
-            # Mover al escondite y mostrar "trozos de tierra"
-            self.hidden = True
-            self.root.geometry(f"+{hide_x}+{hide_y}")
-            self.canvas.itemconfig(self.character, fill="white")  # Hacer al personaje invisible
-            self.animate_dirt_effect(hide_x, hide_y)
-
-        self.root.after(5000, hide)
-
-    def animate_dirt_effect(self, x, y):
-        # Crear una animación de bloques de tierra que aparezcan continuamente hasta ser encontrado
-        dirt_window = tk.Toplevel(self.root)
-        dirt_window.geometry(f"100x100+{x}+{y}")
-        dirt_window.overrideredirect(1)
-        dirt_window.attributes('-topmost', True)
-        dirt_window.attributes('-transparentcolor', 'white')  # Fondo transparente
-        dirt_canvas = tk.Canvas(dirt_window, width=100, height=100, bg="white", highlightthickness=0)
-        dirt_canvas.pack()
-
-        # Animar bloques de tierra apareciendo
-        def create_block():
-            block = dirt_canvas.create_rectangle(
-                random.randint(0, 90), random.randint(0, 90), random.randint(10, 100), random.randint(10, 100),
-                fill="brown", outline="black"
-            )
-            dirt_canvas.after(300, lambda: dirt_canvas.delete(block))  # Eliminar el bloque después de un tiempo
-            if self.hidden:
-                dirt_canvas.after(500, create_block)  # Continuar creando bloques si no ha sido encontrado
-
-        def found():
-            self.hidden = False
-            self.canvas.itemconfig(self.character, fill="blue")  # Hacer al personaje visible
-            dirt_window.destroy()  # Eliminar el canvas de tierra
-            self.move_character()  # Reanudar el movimiento
-            print("¡Me encontraste!")
-
-        dirt_canvas.bind("<Button-1>", lambda e: found())
-        create_block()
-
-    def show_transparent_countdown(self, seconds):
-        # Crear una ventana completamente transparente
-        countdown_window = tk.Toplevel(self.root)
-        countdown_window.overrideredirect(1)
-        countdown_window.attributes('-topmost', True)
-        countdown_window.attributes('-transparentcolor', 'black')
-        countdown_window.geometry(f"{self.screen_width}x{self.screen_height}+0+0")
-
-        # Agregar el texto como cuenta regresiva
-        countdown_label = tk.Label(countdown_window, text="", font=("Arial", 63), fg="red", bg="black")
-        countdown_label.pack(expand=True)
-
-        def update_countdown(remaining):
-            if remaining > 0:
-                countdown_label.config(text=f"Espérame {remaining} segundos")
-                self.root.after(1000, update_countdown, remaining - 1)
-            else:
-                countdown_window.destroy()
-
-        update_countdown(seconds)
+    
+   
 
     def close_assistant(self):
         # Cerrar la aplicación
