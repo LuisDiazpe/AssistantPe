@@ -44,12 +44,12 @@ Este es un **asistente virtual único** con un toque peruano. Diseñado para ent
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/LuisDiazpe/virtual-assistant-peruvian-style.git
+   git clone https://github.com/LuisDiazpe/AssistantPe.git
    ```
 
 2. Ve al directorio del proyecto:
    ```bash
-   cd virtual-assistant-peruvian-style
+   cd AssistantPe
    ```
 
 3. Instala las dependencias necesarias:
@@ -108,6 +108,12 @@ Asistente: ¡Te estoy buscando! 👀
 ## Licencia 📄
 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+
+## Estructura del proyecto 📂
+
+- **Assistant.py**: El archivo principal que contiene el código del asistente virtual.
+- **Imagenes/**: Carpeta que almacena los recursos gráficos como memes y otros elementos visuales utilizados por el asistente.
+- **README.md**: Este archivo, que proporciona una descripción detallada del proyecto, cómo instalarlo, usarlo y contribuir.
 
 ---
 
