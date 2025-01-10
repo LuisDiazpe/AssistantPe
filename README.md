@@ -18,7 +18,7 @@ Este es un **asistente virtual único** con un toque peruano. Diseñado para ent
    - Informa sobre el clima actual basado en la ubicación del usuario.
 
 3. **Entretenimiento**:
-   - Juega a las escondidas con el usuario.
+   - Juega a las escondidas con el usuario. El asistente se esconde en la pantalla y el usuario debe encontrarlo.
    - Muestra memes al azar para alegrar el día.
    - Envía mensajes aleatorios cada 90 segundos para mantener la interacción.
 
@@ -70,22 +70,22 @@ Este es un **asistente virtual único** con un toque peruano. Diseñado para ent
 
 ## Uso 📚
 
-- Para consultar noticias internacionales, selecciona el idioma deseado.
-- Pregunta sobre el clima diciendo "¿Cuál es el clima aquí?".
-- Juega con el asistente escribiendo "¡Juguemos a las escondidas!".
+- Haz clic en los botones de la interfaz para consultar noticias internacionales en el idioma deseado.
+- Usa el botón del clima para obtener información basada en tu ubicación actual.
+- Juega con el asistente presionando el botón "Jugar a las escondidas".
 - Relájate y espera memes o mensajes aleatorios.
 
 ## Ejemplo de interacción 💬
 
 ```plaintext
-Usuario: ¿Qué noticias hay en inglés?
+Usuario: Presiona el botón de noticias en inglés.
 Asistente: Aquí están las últimas noticias internacionales en inglés: [enlace a noticias]
 
-Usuario: ¿Cuál es el clima aquí?
+Usuario: Presiona el botón del clima.
 Asistente: Actualmente está soleado con 25°C en tu ubicación.
 
-Usuario: ¡Juguemos a las escondidas!
-Asistente: ¡Te estoy buscando! 👀
+Usuario: Presiona el botón para jugar a las escondidas.
+Asistente: ¡Me estoy escondiendo! 👀 Encuéntrame en la pantalla.
 ```
 
 ## Contribución 🤝
