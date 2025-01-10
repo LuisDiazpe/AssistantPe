@@ -2,7 +2,7 @@ import tkinter as tk
 import random
 import time
 import pyautogui  
-import requests  # Para obtener noticias desde una API
+import requests  
 import math
 from PIL import Image, ImageTk
 import io
@@ -47,6 +47,9 @@ class Assistant:
 
         # Iniciar temporizador para mostrar memes
         self.schedule_memes()
+
+        # Iniciar temporizador para mostrar jergas
+        self.schedule_jergas()
 
     def draw_character(self):
         # Dibujar la cabeza
@@ -109,7 +112,7 @@ class Assistant:
         dirt_window.geometry(f"100x100+{x}+{y}")
         dirt_window.overrideredirect(1)
         dirt_window.attributes('-topmost', True)
-        dirt_window.attributes('-transparentcolor', 'white')  
+        dirt_window.attributes('-transparentcolor', 'white')  # Fondo transparente
         dirt_canvas = tk.Canvas(dirt_window, width=100, height=100, bg="white", highlightthickness=0)
         dirt_canvas.pack()
 
@@ -156,6 +159,66 @@ class Assistant:
 
         update_countdown(seconds)
 
+    def schedule_jergas(self):
+        # Configurar para que cada 1.5 minutos muestre una jerga
+        def show_jerga():
+            jergas = [
+                "-Habla p caushaaaaaa",
+                "-GAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "-Vas a caer chupetín",
+                "-Mano soy un virus",
+                "-Te falta calle sobrino",
+                "-Que fue mano?",
+                "-Chúpame la gampiosaaaaaa",
+                "-Ta que abusón pimo",
+                "-Votame tu meeeeeeeeeeee",
+                "-Ese mi galáctico",
+                "-Ese mi gatooooo MIAUUUUUUU",
+                "-Saca unas bien helenassss",
+                "-Calla marikón",
+                "-Fuera de acá cholo de mrd",
+                "-Unas cariñosas pe mano",
+                "-Saca esa wbd de mi vista broer"
+            ]
+
+            jerga = random.choice(jergas)
+            self.display_jerga(jerga)
+            self.root.after(90 * 1000, show_jerga)  # Reintentar en 1.5 minutos
+
+        self.root.after(90 * 1000, show_jerga)  # Primera ejecución en 1.5 minutos
+
+    def display_jerga(self, jerga):
+        jerga_window = tk.Toplevel(self.root)
+        jerga_window.geometry(f"+{-300}+{random.randint(0, self.screen_height - 100)}")
+        jerga_window.overrideredirect(1)
+        jerga_window.attributes('-topmost', True)
+
+        label = tk.Label(jerga_window, text=jerga, font=("Arial", 16, "bold"), bg="yellow", fg="black")
+        label.pack()
+
+        # Animar el mensaje deslizándose desde un lado
+        def animate_message():
+            current_x = -300
+            target_x = 50
+            step = 5
+
+            def move():
+                nonlocal current_x
+                if current_x < target_x:
+                    current_x += step
+                    jerga_window.geometry(f"+{current_x}+{jerga_window.winfo_y()}")
+                    self.root.after(30, move)
+                else:
+                    self.root.after(5000, jerga_window.destroy)  # Mantener visible por más tiempo
+
+            move()
+
+        animate_message()
+
+    def move_character(self):
+        if self.hidden:  # Detener movimiento si el asistente está escondido
+            return
+
     def draw_character(self):
         # Dibujar la cabeza
         self.canvas.create_oval(25, 10, 75, 60, fill="#D2B48C", outline="black", tags="character")  # Tono trigueño
@@ -194,7 +257,7 @@ class Assistant:
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
 
-        # Simular pausas breves para comportamiento natural
+        # Pausas breves
         if random.random() < 0.01:  # Pausa breve
             self.root.after(300, self.move_character)
             return
@@ -249,7 +312,7 @@ class Assistant:
 
         # Buscar un meme en Google utilizando una ventana del navegador
         def open_google_meme():
-            search_query = "meme random"
+            search_query = "meme random pe"
             url = f"https://www.google.com/search?q={search_query}&tbm=isch"
 
             def animate_browser():
@@ -317,7 +380,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo 
+            self.angle += random.uniform(-0.1, 0.1)  
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -418,7 +481,7 @@ class Assistant:
 
             # Obtener noticias desde la API
             try:
-                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI
+                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  
                 if category == "peru":
                     url = f"https://newsdata.io/api/1/news?country=pe&language=es&apikey={api_key}"
                 else:
