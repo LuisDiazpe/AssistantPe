@@ -197,7 +197,7 @@ class Assistant:
         jerga_window.overrideredirect(1)
         jerga_window.attributes('-topmost', True)
 
-        label = tk.Label(jerga_window, text=jerga, font=("Arial", 18, "bold"), bg="yellow", fg="black")
+        label = tk.Label(jerga_window, text=jerga, font=("Arial", 24, "bold"), bg="yellow", fg="black")
         label.pack()
 
         # Animar el mensaje deslizándose desde un lado
@@ -295,9 +295,9 @@ class Assistant:
         def check_chase():
             if random.random() < 0.63:  # 63% de probabilidad
                 self.start_mouse_chase()
-            self.root.after(30 * 60 * 1000, check_chase)  # Reintentar en 30 minutos
+            self.root.after(5 * 60 * 1000, check_chase)  # Reintentar en 5 minutos
 
-        self.root.after(30 * 60 * 1000, check_chase)  # Primera ejecución en 30 minutos
+        self.root.after(5 * 60 * 1000, check_chase)  # Primera ejecución en 5 minutos
 
     def schedule_memes(self):
         # Configurar para que cada 17 minutos verifique si muestra un meme
@@ -384,7 +384,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo para simular movimiento natural
+            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -540,7 +540,7 @@ class Assistant:
 
             # Obtener noticias desde la API
             try:
-                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI proporcionada
+                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI 
                 if category == "peru":
                     url = f"https://newsdata.io/api/1/news?country=pe&language=es&apikey={api_key}"
                 else:
@@ -643,7 +643,7 @@ class Assistant:
             city = location_data.get("city", "Desconocida")
 
             # Obtener clima usando una API de clima
-            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API actualizada
+            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API 
             weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&lang=es&appid={api_key}"
             weather_response = requests.get(weather_url)
             weather_data = weather_response.json()
