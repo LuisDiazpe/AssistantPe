@@ -1,12 +1,13 @@
 import tkinter as tk
 import random
 import time
-import pyautogui  
-import requests  
+import pyautogui  # type: ignore # Para trabajar con coordenadas de pantalla globales
+import requests  # type: ignore # Para obtener noticias desde una API
 import math
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk # type: ignore
 import io
 import webbrowser
+from transformers import pipeline # type: ignore
 
 class Assistant:
     def __init__(self, root):
@@ -50,6 +51,9 @@ class Assistant:
 
         # Iniciar temporizador para mostrar jergas
         self.schedule_jergas()
+
+        # Inicializar pipeline de PLN
+        self.chatbot = pipeline("text2text-generation", model="facebook/blenderbot-400M-distill")
 
     def draw_character(self):
         # Dibujar la cabeza
@@ -193,7 +197,7 @@ class Assistant:
         jerga_window.overrideredirect(1)
         jerga_window.attributes('-topmost', True)
 
-        label = tk.Label(jerga_window, text=jerga, font=("Arial", 16, "bold"), bg="yellow", fg="black")
+        label = tk.Label(jerga_window, text=jerga, font=("Arial", 18, "bold"), bg="yellow", fg="black")
         label.pack()
 
         # Animar el mensaje deslizándose desde un lado
@@ -209,7 +213,7 @@ class Assistant:
                     jerga_window.geometry(f"+{current_x}+{jerga_window.winfo_y()}")
                     self.root.after(30, move)
                 else:
-                    self.root.after(5000, jerga_window.destroy)  # Mantener visible por más tiempo
+                    self.root.after(5400, jerga_window.destroy)  # Mantener visible el mensaje
 
             move()
 
@@ -257,7 +261,7 @@ class Assistant:
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
 
-        # Pausas breves
+        # Simular pausas breves para comportamiento natural
         if random.random() < 0.01:  # Pausa breve
             self.root.after(300, self.move_character)
             return
@@ -298,7 +302,7 @@ class Assistant:
     def schedule_memes(self):
         # Configurar para que cada 17 minutos verifique si muestra un meme
         def show_random_meme():
-            if random.random() < 0.7:  # 70% de probabilidad
+            if random.random() < 0.3:  # 30% de probabilidad
                 self.display_meme()
             self.root.after(17 * 60 * 1000, show_random_meme)  # Reintentar en 17 minutos
 
@@ -380,7 +384,7 @@ class Assistant:
                 return
 
             # Movimiento continuo mientras el mouse está capturado
-            self.angle += random.uniform(-0.1, 0.1)  
+            self.angle += random.uniform(-0.1, 0.1)  # Cambiar ángulo para simular movimiento natural
             dx = math.cos(self.angle) * self.speed
             dy = math.sin(self.angle) * self.speed
 
@@ -417,9 +421,64 @@ class Assistant:
         menu = tk.Menu(self.root, tearoff=0)
         menu.add_command(label="Noticias", command=self.show_news_categories)
         menu.add_command(label="Clima", command=self.show_weather)
+        menu.add_command(label="Chat", command=self.open_chat_window)
         menu.add_command(label="Jugar a las escondidas", command=self.play_hide_and_seek)
         menu.add_command(label="Cerrar", command=self.close_assistant)
         menu.post(event.x_root, event.y_root)
+
+    def open_chat_window(self):
+        # Crear ventana de chat
+        chat_window = tk.Toplevel(self.root)
+        chat_window.title("Chat con el Asistente")
+        chat_window.geometry("500x700")
+
+        # Marco de conversación
+        conversation_frame = tk.Frame(chat_window, bg="white")
+        conversation_frame.pack(fill=tk.BOTH, expand=True)
+
+        conversation_text = tk.Text(conversation_frame, state=tk.DISABLED, wrap=tk.WORD, bg="lightgray", font=("Arial", 14))
+        conversation_text.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        # Entrada de texto
+        input_frame = tk.Frame(chat_window)
+        input_frame.pack(fill=tk.X, padx=10, pady=10)
+
+        input_field = tk.Entry(input_frame, font=("Arial", 14))
+        input_field.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+
+        send_button = tk.Button(input_frame, text="Enviar", font=("Arial", 14), command=lambda: self.process_message(input_field, conversation_text))
+        send_button.pack(side=tk.RIGHT)
+
+    def process_message(self, input_field, conversation_text):
+        # Procesar mensaje de usuario
+        user_message = input_field.get()
+        input_field.delete(0, tk.END)
+
+        if user_message.strip():
+            # Mostrar mensaje del usuario
+            conversation_text.config(state=tk.NORMAL)
+            conversation_text.insert(tk.END, f"Tú: {user_message}\n", ("user_message",))
+            conversation_text.tag_config("user_message", foreground="blue")
+            conversation_text.config(state=tk.DISABLED)
+
+            # Generar respuesta del asistente
+            assistant_response = self.generate_response(user_message)
+
+            # Mostrar respuesta del asistente
+            conversation_text.config(state=tk.NORMAL)
+            conversation_text.insert(tk.END, f"Asistente: {assistant_response}\n", ("assistant_response",))
+            conversation_text.tag_config("assistant_response", foreground="green")
+            conversation_text.config(state=tk.DISABLED)
+            conversation_text.see(tk.END)
+
+    def generate_response(self, user_message):
+        # Generar respuesta con el modelo de PLN (respuestas en español)
+        try:
+            response = self.chatbot(user_message, max_length=50, num_return_sequences=1)
+            return response[0]['generated_text'].strip()
+        except Exception as e:
+            return "Lo siento, no puedo responder en este momento."
+
 
     def show_news_categories(self):
         # Mostrar categorías de noticias
@@ -481,7 +540,7 @@ class Assistant:
 
             # Obtener noticias desde la API
             try:
-                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  
+                api_key = "pub_63621582321df3583172d78579eaf41a4319b"  # Clave de NewsAPI proporcionada
                 if category == "peru":
                     url = f"https://newsdata.io/api/1/news?country=pe&language=es&apikey={api_key}"
                 else:
@@ -584,7 +643,7 @@ class Assistant:
             city = location_data.get("city", "Desconocida")
 
             # Obtener clima usando una API de clima
-            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API 
+            api_key = "3198f2f2c663133af1230c450de9e269"  # Clave de API actualizada
             weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&lang=es&appid={api_key}"
             weather_response = requests.get(weather_url)
             weather_data = weather_response.json()
