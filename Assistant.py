@@ -1,13 +1,13 @@
 import tkinter as tk
 import random
 import time
-import pyautogui  # type: ignore # Para trabajar con coordenadas de pantalla globales
-import requests  # type: ignore # Para obtener noticias desde una API
+import pyautogui   # Para trabajar con coordenadas de pantalla globales
+import requests   # Para obtener noticias desde una API
 import math
-from PIL import Image, ImageTk # type: ignore
+from PIL import Image, ImageTk 
 import io
 import webbrowser
-from transformers import pipeline # type: ignore
+from transformers import pipeline 
 from googletrans import Translator
 
 
@@ -265,7 +265,7 @@ class Assistant:
         window_x = self.root.winfo_x()
         window_y = self.root.winfo_y()
 
-        # Simular pausas breves para comportamiento natural
+        # Pausas breves
         if random.random() < 0.01:  # Pausa breve
             self.root.after(300, self.move_character)
             return
@@ -295,7 +295,7 @@ class Assistant:
             self.root.after(50, self.move_character)
 
     def schedule_mouse_chase(self):
-        # Configurar para que cada 30 minutos verifique si persigue el mouse
+        # Configurar para que cada 5 minutos verifique si persigue el mouse
         def check_chase():
             if random.random() < 0.63:  # 63% de probabilidad
                 self.start_mouse_chase()
@@ -448,7 +448,7 @@ class Assistant:
     def show_chat_interface(self):
         chat_window = tk.Toplevel(self.root)
         chat_window.title("Chat con Asistente")
-        chat_window.geometry("500x600")  # Tamaño inicial optimizado
+        chat_window.geometry("500x600")  # Tamaño inicial 
         chat_window.configure(bg="lightblue")
 
         # Marco para chat display
@@ -495,6 +495,7 @@ class Assistant:
         categories_window.geometry("300x300")
         categories_window.configure(bg="lightgray")
 
+        #Imágenes de fondo para seccion de noticias
         self.add_category_button(categories_window, "Noticias Internacionales", "international", "Imagenes/mundo.png")
         self.add_category_button(categories_window, "Noticias de Perú", "peru", "Imagenes/peru.png")
         self.add_category_button(categories_window, "Noticias de Fútbol", "sports", "Imagenes/futbol.png")
