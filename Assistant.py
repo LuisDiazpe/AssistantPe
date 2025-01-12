@@ -8,6 +8,8 @@ from PIL import Image, ImageTk # type: ignore
 import io
 import webbrowser
 from transformers import pipeline # type: ignore
+from googletrans import Translator
+
 
 class Assistant:
     def __init__(self, root):
@@ -54,6 +56,8 @@ class Assistant:
 
         # Inicializar pipeline de PLN
         self.chatbot = pipeline("text2text-generation", model="facebook/blenderbot-400M-distill")
+        self.translator = Translator()
+
 
     def draw_character(self):
         # Dibujar la cabeza
@@ -421,63 +425,67 @@ class Assistant:
         menu = tk.Menu(self.root, tearoff=0)
         menu.add_command(label="Noticias", command=self.show_news_categories)
         menu.add_command(label="Clima", command=self.show_weather)
-        menu.add_command(label="Chat", command=self.open_chat_window)
+        menu.add_command(label="Chat", command=self.show_chat_interface)
         menu.add_command(label="Jugar a las escondidas", command=self.play_hide_and_seek)
         menu.add_command(label="Cerrar", command=self.close_assistant)
         menu.post(event.x_root, event.y_root)
 
-    def open_chat_window(self):
-        # Crear ventana de chat
-        chat_window = tk.Toplevel(self.root)
-        chat_window.title("Chat con el Asistente")
-        chat_window.geometry("500x700")
-
-        # Marco de conversación
-        conversation_frame = tk.Frame(chat_window, bg="white")
-        conversation_frame.pack(fill=tk.BOTH, expand=True)
-
-        conversation_text = tk.Text(conversation_frame, state=tk.DISABLED, wrap=tk.WORD, bg="lightgray", font=("Arial", 14))
-        conversation_text.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
-
-        # Entrada de texto
-        input_frame = tk.Frame(chat_window)
-        input_frame.pack(fill=tk.X, padx=10, pady=10)
-
-        input_field = tk.Entry(input_frame, font=("Arial", 14))
-        input_field.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
-
-        send_button = tk.Button(input_frame, text="Enviar", font=("Arial", 14), command=lambda: self.process_message(input_field, conversation_text))
-        send_button.pack(side=tk.RIGHT)
-
-    def process_message(self, input_field, conversation_text):
-        # Procesar mensaje de usuario
-        user_message = input_field.get()
-        input_field.delete(0, tk.END)
-
-        if user_message.strip():
-            # Mostrar mensaje del usuario
-            conversation_text.config(state=tk.NORMAL)
-            conversation_text.insert(tk.END, f"Tú: {user_message}\n", ("user_message",))
-            conversation_text.tag_config("user_message", foreground="blue")
-            conversation_text.config(state=tk.DISABLED)
-
-            # Generar respuesta del asistente
-            assistant_response = self.generate_response(user_message)
-
-            # Mostrar respuesta del asistente
-            conversation_text.config(state=tk.NORMAL)
-            conversation_text.insert(tk.END, f"Asistente: {assistant_response}\n", ("assistant_response",))
-            conversation_text.tag_config("assistant_response", foreground="green")
-            conversation_text.config(state=tk.DISABLED)
-            conversation_text.see(tk.END)
-
-    def generate_response(self, user_message):
-        # Generar respuesta con el modelo de PLN (respuestas en español)
+    def translate_and_generate(self, user_input):
         try:
-            response = self.chatbot(user_message, max_length=50, num_return_sequences=1)
-            return response[0]['generated_text'].strip()
+            # Traducir entrada al inglés
+            translated_input = self.translator.translate(user_input, src='es', dest='en').text
+
+            # Generar respuesta en inglés
+            response = self.chatbot(translated_input)[0]['generated_text']
+
+            # Traducir respuesta al español
+            translated_response = self.translator.translate(response, src='en', dest='es').text
+
+            return translated_response
         except Exception as e:
-            return "Lo siento, no puedo responder en este momento."
+            return "Lo siento, hubo un problema al procesar tu mensaje."
+
+    def show_chat_interface(self):
+        chat_window = tk.Toplevel(self.root)
+        chat_window.title("Chat con Asistente")
+        chat_window.geometry("500x600")  # Tamaño inicial optimizado
+        chat_window.configure(bg="lightblue")
+
+        # Marco para chat display
+        chat_frame = tk.Frame(chat_window, bg="lightblue")
+        chat_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+        chat_display = tk.Text(chat_frame, wrap=tk.WORD, bg="white", font=("Arial", 14), state=tk.DISABLED, height=20)
+        chat_display.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        scrollbar = tk.Scrollbar(chat_frame, command=chat_display.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        chat_display.config(yscrollcommand=scrollbar.set)
+
+        # Marco para entrada del usuario
+        user_input_frame = tk.Frame(chat_window, bg="lightblue")
+        user_input_frame.pack(fill=tk.X, padx=10, pady=5)
+
+        user_input_field = tk.Entry(user_input_frame, font=("Arial", 14))
+        user_input_field.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 5))
+
+        def send_message():
+            user_input = user_input_field.get()
+            if user_input:
+                chat_display.config(state=tk.NORMAL)
+                chat_display.insert(tk.END, f"Tú: {user_input}\n")
+                chat_display.config(state=tk.DISABLED)
+                user_input_field.delete(0, tk.END)
+
+                # Obtener respuesta del chatbot
+                response = self.translate_and_generate(user_input)
+                chat_display.config(state=tk.NORMAL)
+                chat_display.insert(tk.END, f"Asistente: {response}\n")
+                chat_display.config(state=tk.DISABLED)
+                chat_display.see(tk.END)
+
+        send_button = tk.Button(user_input_frame, text="Enviar", command=send_message, font=("Arial", 14), bg="green", fg="white")
+        send_button.pack(side=tk.RIGHT)
 
 
     def show_news_categories(self):
