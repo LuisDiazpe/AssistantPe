@@ -1,0 +1,421 @@
+1	Cumbia	Mi Mujer Me Gobierna	La Banda Gorda
+2	Balada	Tu Eres Mi Hermano del Alma	Gabriel Galán
+3	Cumbia	Mix Me Enamoro de ti	La Bella Luz
+4	Cumbia	Así Se Goza	Segundo Melendez
+5	Cumbia	He Sentido Amor	Amaya Hnos
+6	Cumbia	Llama de amor	Agua Marina
+7	Cumbia	Dios Mío Hasta Que Me Enamoré	Armonia 10
+8	Cumbia	Sabor A Miel	Segundo Rosero
+9	Cumbia	Esta Noche	Orquesta Candela
+10	Cumbia	Amor Pirata	Los Villacorta Orquesta
+11	Cumbia	Qué puedo hacer	Agua Marina
+12	Cumbia	Tu Traición se acabó	Agua Marina
+13	Cumbia	Cenizas	Agua Marina
+14	Cumbia	Pasitos para Bailar	Agua Marina
+15	Cumbia	Si tú dices quererme	Agua Marina
+16	Cumbia	Lárgate	Hnos Yaipen
+17	Cumbia	Puras Mentiras	Agua Marina
+18	Ranchera	Un Millón de Primaveras	Vicente Fernández
+19	Ranchera	Vete Ya	Valentín Elizalde
+20	Cumbia	Vete Ya	Zafiro Sensual
+21	Cumbia	El Embrujo	Grupo 5
+22	Cumbia	Motor Y Motivo	Grupo 5
+23	Cumbia	El Camaleon	Widinson
+24	Cumbia	Mi Corazón Hecho Pedazos	Azucena Calvay y Orquesta
+25	Cumbia	Amor de Mis Amores	Grupo 5
+26	Cumbia	Me Olvidé de Tu Amor	Grupo 5
+27	Cumbia	Serpiente	Armonia 10
+28	Cumbia	Amor Vuelve - (En Vivo)	Grupo 5, Eddy Herrera
+29	Cumbia	Cual Adios	La Única Tropical
+30	Cumbia	Quien Cura	Grupo 5
+31	Cumbia	La Amante	Grupo 5
+32	Cumbia	Puro Corazón	Grupo 5
+33	Cumbia	Qué Pena	Grupo 5
+34	Cumbia	Dos Morenas	Widinson
+35	Cumbia	Quiero Amanecer	Bareto
+36	Cumbia	Adiós Amor	Grupo 5
+37	Cumbia	Quédate Con Él	Grupo 5
+38	Cumbia	Homenaje a Mallanep	Los Villacorta Orquesta
+39	Cumbia	Tu Hipocresía	Grupo 5
+40	Cumbia	El Teléfono En Vivo	Grupo 5, Elmer Yaipen U.
+41	Cumbia	Pensando En Ti	Agua Marina
+42	Cumbia	Por Qué Serás Así	Orquesta Clavito y su Chela
+43	Cumbia	Me Enamoré De Ti, Y Que	Grupo 5
+44	Cumbia	La Danza de los Mirlos	Los Mirlos
+45	Cumbia	Eres Mi Bien	Grupo 5
+46	Cumbia	Tu Amor Fue Una Mentira	Agua Marina
+47	Cumbia	Necesito Un Amor	Hnos Yaipen
+48	Cumbia	Así Es El Amor	Agua Marina
+49	Cumbia	Te Vas	Grupo 5
+50	Cumbia	El Ritmo de Mi Corazón	Grupo 5
+51	Cumbia	El Arbolito	Nectar, Grupo Nectar
+52	Cumbia	Parranda La Negrita	Grupo 5
+53	Cumbia	A Llorar a Otra Parte	Hnos Yaipen
+54	Cumbia	Cuando Te Enamoras	Orquesta Candela
+55	Cumbia	Te Compro Tu Novia	Ramón Orlando
+56	Cumbia	Alimaña	Grupo 5
+57	Cumbia	Te Juro Que Te Amo	Claveles de la Cumbia
+58	Cumbia	Mix Juan Gabriel	Hnos Yaipen
+59	Cumbia	Mala Sombra	Carmencita Lara, Victor Lara
+60	Cumbia	Por Qué Te Fuiste	Maricarmen Marin
+61	Cumbia	Tendría Que Llorar Por Ti	Hnos Yaipen
+62	Cumbia	Ojitos Hechiceros	Grupo Nectar
+63	Cumbia	No Te Creas Tan Importante	Deyvis Orosco
+64	Cumbia	La Loba	Miriam y Las Chicas
+65	Cumbia	Loquito Por Ti	Armando Hernandez, El Combo Caribe
+66	Cumbia	Tomar Para Olvidar	Armonia 10, Ernesto Pimentel
+67	Cumbia	Tu Amor Es Una Trampa	Armonia 10
+68	Cumbia	Solo Tú	Don Medardo y sus Players Mauricio Luzuriaga
+69	Cumbia	Ya Te Olvidé	Tony Rosado
+70	Cumbia	Morir de Amor	Grupo 5
+71	Cumbia	Te Eché al Olvido	Tony Rosado
+72	Cumbia	Triste Payaso	Papillón
+73	Cumbia	La Escobita	Marisol y La Magia Del Norte
+74	Cumbia	Basta Ya Mi Amor	Agua Marina
+75	Cumbia	Esta Vez Me Enamoré	Agua Marina
+76	Cumbia	Lágrimas de Hombre	Agua Marina
+77	Cumbia	Canto Herido	Agua Marina
+78	Cumbia	Falso Amor	Antología, Agua Marina
+79	Cumbia	Cómo Haré Para Olvidarte	Agua Marina
+80	Cumbia	Salvemos Nuestro Amor	Agua Marina
+81	Cumbia	Amor Prohibido	Agua Marina
+82	Cumbia	Avecilla	Agua Marina
+83	Cumbia	El Casorio	Agua Marina
+84	Cumbia	El Teléfono - (En Vivo)	Grupo 5, Agua Marina
+85	Cumbia	Tu Juego	Agua Marina
+86	Cumbia	Nuestro Amor Murió	Agua Marina
+87	Cumbia	Cómo Haré Para Olvidarte / Pensando en Ti	Agua Marina
+88	Cumbia	Perdiste Tu Lugar	Agua Marina
+89	Cumbia	Shipbo Enamorado	Internacional Privados
+90	Cumbia	Mix Gilda (No Me Arrepiento de Este Amor)	La Bella Luz
+91	Cumbia	Quiero Olvidarte	Agua Marina
+92	Cumbia	Amor Prohibido / Avecilla / Basta Ya Mi Amor	Agua Marina
+93	Cumbia	El Teléfono	Agua Marina
+94	Cumbia	Dónde Está El Amor	Internacional Mallanep
+95	Electro-Cumbia	25 Horas	Proyecto Uno
+96	Cumbia	La Duda	Armonia 10
+97	Cumbia	Paloma Ajena Live	Agua Marina
+98	Cumbia	Basta Ya Mi Amor Live	Agua Marina
+99	Cumbia	Tu Amor Fue Una Mentira Live	Agua Marina
+100	Cumbia	Puras Mentiras Live	Agua Marina
+101	Cumbia	Quiero Olvidarte Live	Agua Marina
+102	Cumbia	Ya Te Olvidé	Armonia 10
+103	Cumbia	Pagarás	Armonia 10
+104	Cumbia	Solo Estoy Tomando	Armonia 10
+105	Cumbia	Pobre Soy	Armonia 10
+106	Cumbia	Me Emborracho por Tu Amor	Armonia 10
+107	Cumbia	Así Se Goza	Grupo 5
+108	Cumbia	Eres Mentirosa	Los Mirlos
+109	Cumbia	Que Levante la Mano / Te Vas	Grupo 5
+110	Cumbia	Que Levante la Mano	Hnos Yaipen
+111	Cumbia	Lejos de Ti	Amaya Hnos
+112	Cumbia	El Chacombo	Oscar Avilés, Arturo "Zambo" Cavero
+113	Cumbia	Felicidades	Internacional Privados
+114	Cumbia	Júrame	El Lobo Y La Sociedad Privada
+115	Cumbia	Año Nuevo	Internacional Privados
+116	Cumbia	Me Gusta Pensar en Ti	Agua Marina
+117	Cumbia	Dónde Está El Amor	Internacional Mallanep
+118	Cumbia	Costeñita	Cuarteto Continental de Alberto Maravi
+119	Cumbia	Estás Pisao	Gran Orquesta Internacional
+120	Cumbia	Una Aventura Más	Internacional Mallanep
+121	Cumbia	Una Cerveza	Rafaga
+122	Cumbia	Mentirosa	Rafaga
+123	Cumbia	Mentirosa Remix	Rafaga, Maria Becerra
+124	Cumbia	Todo Comenzó Bailando Remix	Marama, Emanero, Rafaga
+125	Cumbia	17 Años	Los Angeles Azules, Jay de la Cueva
+126	Cumbia	Siempre Pierdo en el Amor	Armonia 10
+127	Cumbia	El Bombón	Los Palmeras
+128	Cumbia	Cómo Te Voy A Olvidar	Los Ángeles Azules
+129	Cumbia	Nunca Es Suficiente	Los Ángeles Azules, Natalia Lafourcade
+130	Cumbia	Cómo Te Voy A Olvidar	Los Ángeles Azules, Vicentico
+131	Cumbia	Mix Ángeles de Charly 1	Grupo 5
+132	Cumbia	Nuestro Amor Murió	Agua Marina
+133	Cumbia	Pasitos para Bailar / Voy a Llorar / Libertad	Agua Marina
+134	Cumbia	Ya Te Olvidé	Tony Rosado Internacional Pacífico
+135	Cumbia	Paloma Ajena	Los Ecos
+136	Cumbia	Si Me Quieres	Los Hijos del Sol
+137	Cumbia	No Te Vayas	Rafaga
+138	Cumbia	Mix Juan Gabriel	Hnos Yaipen
+139	Cumbia	Dale Que So Vo	Emus DJ
+140	Cumbia	Yo Tomo Licor	Amar Azul
+141	Cumbia	Que Te Vaya Bien	Santaferia, Grupo Zúmbale Primo
+142	Salsa	Brujería	El Gran Combo De Puerto Rico
+143	Cumbia	Carinito	Bareto
+144	Cumbia	Paloma Ajena	Agua Marina
+145	Cumbia	Amor, Amor	Agua Marina
+146	Balada	Más Que Tu Amigo	Marco Antonio Solís
+147	Salsa	Cervecero	Armonia 10
+148	Salsa	Talento De Televisión	Willie Colón
+149	Salsa	Ojitos Mentirosos	Tropicalisimo Apache
+150	Salsa	La Agarro Bajando	Gilberto Santa Rosa
+151	Salsa	Pégame Tu Vicio	Eddy Herrera
+152	Salsa	Tu Eres Ajena	Eddy Herrera
+153	Salsa	La Bilirrubina	Juan Luis Guerra 4.40
+154	Salsa	Todo Empezo	Eddie Santiago
+155	Salsa	Desnúdate Mujer	Frankie Ruiz
+156	Salsa	Vale la Pena	Juan Luis Guerra 4.40
+157	Salsa	Tu Cariñito	Luisito Ayala Y La Puerto Rican Power
+158	Salsa	Que Levante la Mano	Joseph Fonseca
+159	Salsa	Persona Ideal Me Tengo Que Ir	Adolescent's Orquesta
+160	Salsa	Lágrimas	Roberto Blades
+161	Salsa	Escúchame	Joseph Fonseca
+162	Salsa	Noches de Fantasía	Joseph Fonseca
+163	Salsa	Anhelo	Adolescent's Orquesta
+164	Salsa	Llorarás	Dimension Latina
+165	Salsa	Escombros	La Suprema Corte
+166	Salsa	Te Hizo Tan Bella	Adolescent's Orquesta
+167	Salsa	El Preso	Fruko Y Sus Tesos, Wilson "Saoko" Manyoma
+168	Salsa	El Día De Suerte	Héctor Lavoe
+169	Salsa	El Caballito de Palo	Joseph Fonseca
+170	Salsa	Enséñame a Soñar	Susan Díaz, Yilberking, DJ Goozo
+171	Salsa	La Vida Es un Carnaval	Celia Cruz
+172	Salsa	Mia	Eddie Santiago
+173	Salsa	La Ventanita	Sergio Vargas
+174	Salsa	Gotas De Lluvia	Grupo Niche
+175	Salsa	Sin Sentimientos	Grupo Niche
+176	Salsa	Una Aventura	Grupo Niche
+177	Salsa	Se Pareció Tanto a Ti	Grupo Niche
+178	Salsa	Eres	Grupo Niche
+179	Salsa	Porque Yo en el Amor Soy un Idiota	Adrian Vidal
+180	Salsa	Tú Me Haces Falta	Eddie Santiago
+181	Salsa	Pa' Bravo Yo	Justo Betancourt
+182	Salsa	Conciencia	Gilberto Santa Rosa
+183	Salsa	La Noche	Joe Arroyo, La Verdad
+184	Salsa	Me Negó	Adolescent's Orquesta
+185	Salsa	Lágrimas	Orq La Inmensidad
+186	Salsa	Pequeñas Cosas	Willie Gonzalez
+187	Salsa	El Ausente	Fruko Y Sus Tesos, Joe Arroyo
+188	Salsa	Entre Rejas	Lisandro Meza
+189	Salsa	Golpe Con Golpe	Pastor Lopez
+190	Salsa	El Amor Más Bonito	Tito Nieves
+191	Salsa	Como Te Hago Entender	Roberto Roena Y Su Apollo Sound
+192	Salsa	Amanecí Contigo	Hildemaro
+193	Salsa	Cuando Parará La Lluvia	Johnny Rivera
+194	Salsa	Sólo un Cigarro	Pastor Lopez
+195	Salsa	La Pollera Colorá	Pedro Salcedo, Wilson Choperena
+196	Salsa	Periquito Pin-Pin	Tommy Olivencia
+197	Salsa	A la Memoria del Muerto	Fruko Y Sus Tesos, Piper Pimienta Diaz
+198	Salsa	Ojos Chinos	El Gran Combo De Puerto Rico
+199	Salsa	Me Vas a Extrañar	N'Samble
+200	Salsa	La Quiero A Morir	DLG
+201	Salsa	Si Te Marchas - Voy a Llorar	Adolescent's Orquesta
+202	Salsa	Cómo Hago	Eddy Herrera
+203	Salsa	Sobredosis	Los Titanes, Óscar Quesada
+204	Salsa	La Entrevista Remasterizado	David Calzado y su Charanga Habanera
+205	Salsa	Gozando en la Habana Remasterizado	David Calzado y su Charanga Habanera
+206	Salsa	Sácala a Bailar	Gian Marco
+207	Salsa	Brindemos por Ella	Los 4, Yambele
+208	Salsa	Por Ustedes	Fixty Ordara y Ja Rulay, Wampi, Wow Popy, Ja Rulay, Fixty Ordara
+209	Rock en Español	La Ingrata	Café Tacvba
+210	Rock en Español	La Guitarra	Los Auténticos Decadentes
+211	Rock en Español	El Pájaro Vio el Cielo y Se Voló	Los Auténticos Decadentes
+212	Rock en Español	Diosa	Los Auténticos Decadentes
+213	Rock en Español	Corazón	Los Auténticos Decadentes
+214	Rock en Español	Loco Tu Forma de Ser	Los Auténticos Decadentes
+215	Rock en Español	Amor	Los Auténticos Decadentes, Mon Laferte
+216	Rock en Español	No Me Importa el Dinero	Los Auténticos Decadentes
+217	Rock en Español	LocoTuFormadeSer	Los Auténticos Decadentes, Rubén Albarrá
+218	Rock en Español	Kilómetros	Los Caligaris
+219	Rock en Español	Razón	Los Caligaris
+220	Rock en Español	Tyson	Los Caligaris
+221	Rock en Español	El Murguero	Los Auténticos Decadentes
+222	Rock en Español	Como Te Extraño Mi Amor	Café Tacvba
+223	Rock en Español	Las Flores	Café Tacvba
+224	Rock en Español	Con el Tacto de Una Flor y la Música del Mar	MDLR
+225	Rock en Español	En Algún Lugar	Duncan Dhu
+226	Rock en Español	Nada Fue Un Error	Coti, Andrés Calamaro
+227	Rock en Español	Para No Verte Más	La Mosca Tse-Ise
+228	Rock en Español	Rayando el Sol	Maná
+229	Rock en Español	Clavado en Un Bar	Maná
+230	Rock en Español	Te Quiero Igual	Andrés Calamaro
+231	Rock en Español	Sin Documentos	Los Rodriguez
+232	Rock en Español	Me Voy	Julieta Venegas
+233	Rock en Español	Te Quiero Comer La Boca	La Mosca Tse-Tse
+234	Rock en Español	El Sol No Regresa	La Quinta Estación
+235	Rock en Español	Auto Rojo	Vilma Palma e Vampiros
+236	Rock en Español	Tabaco y Chanel	Bacilos
+237	Rock en Español	El Che y los Rolling Stones	Los Rancheros
+238	Rock en Español	Para No Olvidar	Los Rodriguez
+239	Rock en Español	Amor Clandestino	Maná
+240	Rock en Español	Los Caminos de la Vida	Vicentico
+241	Rock en Español	Igual Que Ayer	Los Enanitos Verdes
+242	Rock en Español	Demolición	Los Saicos
+243	Rock en Español	Las Piedras Rodantes	El Trii
+244	Rock en Español	El Ataque de las Chicas Cocodrilo	Hombres G
+245	Rock en Español	Sexo	Los Prisioneros
+246	Rock en Español	Por Qué No Se Van	Los Prisioneros
+247	Rock en Español	No Dejes Que...	Caifanes
+248	Rock en Español	Lobo-hombre en París	La Unión
+249	Rock en Español	De Música Ligera	Soda Stereo
+250	Rock en Español	?? ?? Pa	Los Prisioneros
+251	Rock en Español	Mariposa Tecnicolor	Fito Paez
+252	Rock en Español	Para No Olvidar	Los Rodriguez
+253	Rock en Español	Cuando Seas Grande	Miguel Mateos - Zas
+254	Rock en Español	Triste Canción	El Tri
+255	Rock en Español	Beber de Tu Sangre	Los Amantes De Lola
+256	Rock en Español	Fugitivos	Los Rancheros
+257	Rock en Español	Bolero Falaz	Aterciopelados
+258	Rock en Español	Veneno en la Piel	Radio Futura
+259	Alternativo	Shakira y Sus Amigas	Chabelos
+260	Alternativo	El Quinto Teletubie	Chabelos
+261	Alternativo	Internet	Chabelos
+262	Alternativo	Me La Están Metiendo	Chabelos
+263	Alternativo	Dedicada a Jastin	El Bananero, The Moors
+264	Alternativo	Yo Tengo Un Moco	KOi
+265	Alternativo	Tu Nombre Empieza Con la Letra P	Viral Musics World
+266	Alternativo	No Me Importa Morir	El Otro Yo
+267	Alternativo	Voy Buscando Un Travesti	MatysitoFlowBakanO
+268	Alternativo	Policía Policía UPJ	El Mouse
+269	Alternativo	Ojos Cafés	Skapital Sound
+270	Alternativo	La Resaka	Supermerk2
+271	Alternativo	Fuma del Humo y Sana	Zona Ganjah
+272	Alternativo	Meriendacena Medieval	El Reno Renardo
+273	Otros	Ese Hombre	Los 4, Batule DJ, Los Barraza
+274	Otros	No Te Contaron Mal	You Salsa
+275	Tropical	Cariñito	Rodolfo Aicardi, Los Hispanos
+276	Tropical	Pa' Mayte	Carlos Vives
+277	Tropical	Magalenha	Sérgio Mendes
+278	Tropical	Jogadinha do Paqueta	Mc Rf, Dj Kaio VDM
+279	Tropical	Tu Amigo o Tu Amante	La Sabrosura Orquesta
+280	Tropical	Compay Gato Guaracha	Los Guaracheros De Oriente
+281	Tropical	El Amor de Mi Vida "Se Fue"	Grupo Galé
+282	Punk Rock	Generación Perdida	6 Voltios
+283	Punk Rock	Puto	Molotov
+284	Reggaetón	Brickell	Feid, Yandel
+285	Reggaetón	TATTOO	La Única Tropical
+286	Reggaetón	Si Antes Te Hubiera Conocido	KAROL G
+287	Reggaetón	Gata Only	FloyyMenor, Cris Mj
+288	Reggaetón	LA FALDA	Myke Towers
+289	Reggaetón	Te Vi	Piso 21, Micro TDH
+290	Reggaetón	Me Porto Bonito	Bad Bunny, Chencho Corleone
+291	Reggaetón	Jordan	Ryan Castro
+292	Reggaetón	BIZCOCHITO	ROSALÍA
+293	Reggaetón	BOMBON	Daddy Yankee, El Alfa, Lil Jon
+294	Reggaetón	La Mamá de La Mamá	DJ Niar
+295	Reggaetón	Mi Bloncito	Nejo
+296	Reggaetón	Alegre Prendo	Nejo
+297	Reggaetón	Tú Me Quemas	Chino & Nacho, Gente De Zona, Los Cadillac's
+298	Reggaetón	Calypso	Luis Fonsi, Stefflon Don
+299	Reggaetón	Menea Tu Chapa	Wilo D New
+300	Reggaetón	Toma Que Toma	JP El Chamaco
+301	Reggaetón	Tienes La Magia	Lil Silvio & El Vega
+302	Reggaetón	Un Beso	Los 4
+303	Reggaetón	Dile	Don Omar
+304	Reggaetón	Lo Que Pasó, Pasó	Daddy Yankee
+305	Reggaetón	Desesperados	Rauw Alejandro, Chencho Corleone
+306	Reggaetón	Efecto	Bad Bunny
+307	Reggaetón	Pareja Del Año	Sebastian Yatra, Myke Towers
+308	Reggaetón	PROVENZA	KAROL G
+309	Reggaetón	QUEMA	Ryan Castro, Peso Pluma, SOG
+310	Reggaetón	Ella Me Levantó	Daddy Yankee
+311	Reggaetón	DEGENERE	Myke Towers, benny blanco
+312	Reggaetón	Titi Me Preguntó	Bad Bunny
+313	Reggaetón	Borro Cassette	Maluma
+314	Reggaetón	La Despedida	Daddy Yankee
+315	Reggaetón	Feliz Cumpleaños Ferxxo	Feid
+316	Reggaetón	Salió El Sol	Don Omar
+317	Reggaetón	PERRO NEGRO	Bad Bunny, Feid
+318	Reggaetón	AMARGURA	KAROLG
+319	Reggaetón	Bailame Remix	Nacho, Yandel, Bad Bunny, Mambo Kingz, DJ Luian
+320	Reggaetón	CLASSY 101	Feid, Young Miko
+321	Reggaetón	NUEVAYoL	Bad Bunny
+322	Criolla	Mayoral	Lucila Campos
+323	Criolla	Cholo Soy y No Me Compadezcas	Luis Abanto Morales
+324	Criolla	La Pitita	Luis Abanto Morales
+325	Criolla	Y Se Llama Perú	Arturo "Zambo" Cavero, Oscar Avilés
+326	Criolla	Negrito Chinchivi	Lucila Campos
+327	Criolla	Nostalgia	Antología
+328	Criolla	Don José	Los Ribereños
+329	Criolla	Nunca Podrán	Luis Abanto Morales
+330	Criolla	Se Acabó y Punto	Arturo "Zambo" Cavero
+331	Criolla	Saca la Mano	Eva Ayllón
+332	Criolla	Paruanita Bonita	Lucila Campos
+333	Criolla	Ritmo De Negros	Pepe Vásquez
+334	Criolla	El Guaranguito	Arturo "Zambo" Cavero, Lucila Campos
+335	Criolla	Jipi Jay	Pepe Vásquez
+336	Criolla	Guaranguito	Eva Ayllón
+337	Criolla	Don José	Los Ribereños
+338	Criolla	Mal Paso	Eva Ayllón
+339	Criolla	Ingá	Eva Ayllón
+340	Criolla	Mi Cariñito	Los Kipus, Eva Ayllón
+341	Criolla	Huye de Mi	Los Kipus
+342	Pop	Cuando Te Conocí	Andrés Calamaro
+343	Pop	Mi Primer Millón	Bacilos
+344	Pop Latino	Caraluna	Bacilos
+345	Pop Latino	Colgando en Tus Manos	Carlos Baute, Marta Sánchez
+346	Pop Latino	Un Beso y Una Flor	Nino Bravo
+347	Pop Latino	Te Mando Flores	Fonseca
+348	Pop Latino	Macarena	Los Del Rio
+349	Pop Latino	Macarena - Bayside Boys Remix	Los Del Rio
+350	Pop Latino	Ti Amo	Umberto Tozzi
+351	Pop Latino	Gloria	Umberto Tozzi
+352	Pop Latino	Magic in the Air	Magic System, Chawki
+353	Pop Latino	Verano Azul	Juan Magán
+354	Pop Latino	Bronceado	Marama
+355	Pop Latino	Loquita	Marama
+356	Pop Latino	Me Gusta Todo de Ti	Noche de Brujas
+357	Pop Latino	Buscándote	Mike Bahía
+358	Pop Latino	Fuiste	Gilda
+359	Pop Latino	Ven A Bailar	Yamana
+360	Pop Latino	Un Montón de Estrellas	La T y La M
+361	Pop Latino	Besitos de Colores	Rocko y Blasty
+362	Pop Latino	Todo Comenzó Bailando	Maramal
+363	Pop Latino	Un Montón De Estrellas	Polo Montanez
+364	Pop Latino	Un Montón de Estrellas	Gilberto Santa Rosa
+365	Pop Latino	Volvió el Verano	El Reja
+366	Pop Latino	Volvió el Verano	Martin y su cumbia Free
+367	Pop Latino	Calma Remix	Pedro Capó, Farruko
+368	Pop Latino	Bonita Si E	Donny Caballero, Chelito De Castro
+369	Pop Latino	Bella	Wolfine
+370	Pop Latino	Tengo Tu Love	Sie7e
+371	Pop Latino	La Temperatura (feat. Eli Palacios)	Maluma, Eli Palacios
+372	Pop Latino	Locos de Amor	Yordano
+373	Pop Latino	Beautiful Girls	Sean Kingston
+374	Pop Latino	un x100to	Grupo Frontera, Bad Bunny
+375	Pop Latino	VAGABUNDO	Sebastian Yatra, Manuel Turizo, Beéle
+376	Pop Latino	Carito	Carlos Vives
+377	Pop Latino	Qué Bonito	Vicky Corbacho
+378	Pop Latino	Único	Joey Montana
+379	Balada	Tú de Qué Vas	Franco De Vita
+380	Balada	Historia Entre Tus Dedos	Los 4
+381	Balada	Tu de Qué Vas	Los 4
+382	Balada	La Gata Bajo la Lluvia	Brunella Torpoco
+383	Balada	Amor Narcótico	ChiChi Peralta, Jandy Feliz
+384	Indie	Accidente	Las Ligas Menores
+385	Fusión Tropical	Las Torres	Nosequien y Los Nosecuantos
+386	Fusión	Más Poder	La Sarita
+387	Fusión	Triciclo Perú	Los Mojarras
+388	Fusión	Me Resfrié en Brasil	Arena Hash
+389	Fusión	Avenida Larco	Frágil
+390	Fusión	Borracha Cha	Afrodisiaco, Ricky Majka, Amadeo Gaviria
+391	Fusión	Suna	Mar de Copas
+392	Fusión	El Tiempo	Afrodisiaco
+393	Fusión	Un Día Sin Sexo	Mar de Copas
+394	Fusión	Las Torres	NSQNSC
+395	Fusión	El Hombre Que Quería Ser un Árbol	Rafo Raez
+396	Fusión Tropical	Buscándote	The Latin Brothers, Piper Pimienta Diaz
+397	Fusión Tropical	Sobre las Olas	The Latin Brothers
+398	Fusión Tropical	Los Sabanales	Los Corraleros De Majagual, Calixto Ochoa
+399	Vallenato	El Santo Cachón	Los Embajadores Vallenatos
+400	Villancicos	Los Peces en el Río	Villancicos de Navidad
+401	Electrónica	Mon Amour Remix	zzoilo, Aitana
+402	Electrónica	Fireball	Pitbull, John Ryan
+403	Electrónica	El Incomprendido	El Farruko, Victor Cardenas, Dj Adoni
+404	Metal	El Atrapasuenos	Mägo de Oz
+405	Metal	Y Ahora Voy a Salir Ranxeira	Mägo de Oz
+406	Metal	Tequila Tanto por Vivir	Mägo de Oz
+407	Metal	Fiesta Pagana	Mägo de Oz
+408	Metal	Fiesta Pagana 2.0	Mägo de Oz
+409	Electro	Bella Ciao (Bruno Martini Remix)	Najwa, Bruno Martini
+410	Reggae	Baracunatana	Aterciopelados
+411	Fusión	Morenita	HUGEL, Cumbiafrica
+412	Clásica	Champions League Theme	Champions League Orchestra
+413	Ska	El Vals del Obrero	Ska-P
+414	Ska	Canto a la Rebelión	Ska-P
+415	Ska	Todo no se puede	Dinamo
+416	Ska	Vasos Vacíos Remasterizado 2008	Los Fabulosos Cadillacs
+417	Ska	El Vals del Obrero	Ska-P
+418	Punk	Demolición	Los Saicos
+419	Punk	Al Colegio No Voy Más	Leusemia
+420	Ranchera	Rata De Dos Patas	Paquita La Del Barrio
+421	Ranchera	Tu Cárcel	Los Bukis
