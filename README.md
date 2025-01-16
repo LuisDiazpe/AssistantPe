@@ -95,6 +95,9 @@ Asistente: Aquí están las últimas noticias internacionales: [enlace a noticia
 Usuario: Presiona el botón del clima.
 Asistente: Actualmente está soleado con 25°C en tu ubicación.
 
+Usuario: Presiona el botón para jugar a las escondidas.
+Asistente: ¡Me estoy escondiendo! 👀 Encuéntrame en la pantalla
+
 Usuario: Presiona el botón de recomendaciones musicales.
 Asistente: Aquí tienes una lista de 30 canciones que podrías disfrutar:  
 1. Song Title 1  
