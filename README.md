@@ -105,8 +105,6 @@ Asistente: Holidays are my favorite time of the year.  Do you like holidays?
  
 ```
 
-## Ejemplo de interacción 💬
-
 plaintext
 Usuario: Presiona el botón de noticias internacionales.
 Asistente: Aquí están las últimas noticias internacionales en inglés: [enlace a noticias]
