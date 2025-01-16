@@ -8,8 +8,11 @@ from PIL import Image, ImageTk
 import io
 import webbrowser
 from transformers import pipeline 
-from googletrans import Translator
-
+from googletrans import Translator # type: ignore
+import sqlite3
+import os
+import pyodbc
+import re
 
 class Assistant:
     def __init__(self, root):
@@ -57,6 +60,87 @@ class Assistant:
         # Inicializar pipeline de PLN
         self.chatbot = pipeline("text2text-generation", model="facebook/blenderbot-400M-distill")
         self.translator = Translator()
+
+        # Cargar canciones desde el archivo TXT
+        self.songs = self.load_songs_from_txt()
+
+    def load_songs_from_txt(self):
+        """Leer canciones desde el archivo TXT."""
+        file_path = "Base de Datos/BaseDeDatosCanciones.txt"
+        songs = []
+
+        try:
+            with open(file_path, "r", encoding="utf-8") as file:
+                for line in file:
+                    # Dividir los valores por espacios
+                    parts = line.strip().split(maxsplit=3)
+                    if len(parts) == 4:
+                        _, genero, nombre, interprete = parts
+                        songs.append((genero, nombre, interprete))
+
+            print(f"{len(songs)} canciones cargadas desde el archivo TXT.")
+        except Exception as e:
+            print(f"Error al leer el archivo TXT: {e}")
+
+        return songs
+
+    def show_recommendations_window(self):
+        """Abrir una ventana independiente para recomendaciones de música."""
+        recommendations_window = tk.Toplevel(self.root)
+        recommendations_window.title("Recomendaciones de Música")
+        recommendations_window.geometry("800x800")
+        recommendations_window.configure(bg="#1E1E2F")
+
+        # Estilo
+        title_font = ("Helvetica", 16, "bold")
+        text_font = ("Helvetica", 12)
+        fg_color = "#FFFFFF"
+        bg_color = "#1E1E2F"
+        button_color = "#4CAF50"
+        button_hover = "#45A049"
+
+        # Título
+        title_label = tk.Label(
+            recommendations_window, text="Recomendaciones de Música", font=title_font, bg=bg_color, fg=fg_color
+        )
+        title_label.pack(pady=10)
+
+        # Área de texto para mostrar recomendaciones
+        text_area = tk.Text(
+            recommendations_window, wrap=tk.WORD, font=text_font, bg="#2E2E3F", fg=fg_color, bd=0, relief=tk.FLAT
+        )
+        text_area.pack(padx=20, pady=10, fill=tk.BOTH, expand=True)
+
+        # Botón para obtener recomendaciones
+        recommend_button = tk.Button(
+            recommendations_window,
+            text="Mostrar Recomendaciones",
+            font=text_font,
+            bg=button_color,
+            fg=fg_color,
+            activebackground=button_hover,
+            relief=tk.FLAT,
+            command=lambda: self.show_recommendations(text_area),
+        )
+        recommend_button.pack(pady=10)
+
+    def show_recommendations(self, text_area):
+        """Mostrar 30 canciones aleatorias."""
+        if not self.songs:
+            text_area.delete(1.0, tk.END)
+            text_area.insert(tk.END, "No se encontraron canciones en el archivo TXT.")
+            return
+
+        recommendations = random.sample(self.songs, min(30, len(self.songs)))
+
+        # Limpiar el área de texto y mostrar nuevas recomendaciones
+        text_area.delete(1.0, tk.END)
+        text_area.insert(tk.END, "Recomendaciones de Canciones:\n\n")
+
+        for i, (genero, nombre, interprete) in enumerate(recommendations, start=1):
+            text_area.insert(
+                tk.END, f"{i}. {nombre} - {interprete} ({genero})\n"
+            )
 
 
     def draw_character(self):
@@ -186,7 +270,8 @@ class Assistant:
                 "-Calla marikón",
                 "-Fuera de acá cholo de mrd",
                 "-Unas cariñosas pe mano",
-                "-Saca esa wbd de mi vista broer"
+                "-Saca esa wbd de mi vista broer",
+               "-Con Fujimori esto no PASABAAAA" 
             ]
 
             jerga = random.choice(jergas)
@@ -425,6 +510,7 @@ class Assistant:
         menu = tk.Menu(self.root, tearoff=0)
         menu.add_command(label="Noticias", command=self.show_news_categories)
         menu.add_command(label="Clima", command=self.show_weather)
+        menu.add_command(label="Sugerencias de Música", command=self.show_recommendations_window)
         menu.add_command(label="Chat", command=self.show_chat_interface)
         menu.add_command(label="Jugar a las escondidas", command=self.play_hide_and_seek)
         menu.add_command(label="Cerrar", command=self.close_assistant)
