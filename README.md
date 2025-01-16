@@ -1,41 +1,42 @@
-Aquí tienes el README actualizado con tu solicitud:
-
----
-
 # Virtual Assistant: Peruvian Style 🌎🤖🇵🇪
 
 ## Descripción 📜
 
-Este es un **asistente virtual único** con un toque peruano. Diseñado para entretener, informar y sorprender a los usuarios, el asistente tiene una amplia gama de funciones interactivas. Ya sea para mantenerse al día con las noticias internacionales o simplemente pasar un buen rato jugando, este asistente tiene algo para todos.
+Este es un **asistente virtual único** con un toque peruano. Diseñado para entretener, informar y sorprender a los usuarios, el asistente tiene una amplia gama de funciones interactivas. Ya sea para mantenerse al día con las noticias internacionales, recibir recomendaciones musicales, o simplemente pasar un buen rato jugando, este asistente tiene algo para todos.
 
 ## Características ✨
 
-1. **Chat interactivo (¡nueva función!)**:  
-   - Se ha implementado una función de chat.  
-   - Actualmente **solo funciona en inglés**.  
-   - Si intentas hablarle en español, **el chat podría fallar** o comportarse de manera inesperada. ⚠️  
+1. **Chat interactivo (¡mejorado!)**:  
+   - La función de chat ahora funciona tanto en **inglés** como en **español**.  
+   - Interactúa con el asistente en el idioma que prefieras.
 
-2. **Noticias en múltiples idiomas**:  
+2. **Recomendaciones musicales**:  
+   - El asistente proporciona una lista de **30 canciones** seleccionadas para que disfrutes.
+
+3. **Textos aleatorios en pantalla**:  
+   - Aparecen textos al azar desde un lado de la pantalla por un tiempo limitado para sorprenderte.
+
+4. **Noticias en múltiples idiomas**:  
    - Noticias internacionales disponibles en:  
      - Español 🇪🇸  
      - Inglés 🇺🇸  
      - Portugués 🇧🇷  
      - Italiano 🇮🇹  
-   - Noticias locales de Perú en español 🇵🇪.  
+   - Noticias locales de Perú en español 🇵🇪.
 
-3. **Clima personalizado**:  
-   - Informa sobre el clima actual basado en la ubicación del usuario.  
+5. **Clima personalizado**:  
+   - Informa sobre el clima actual basado en la ubicación del usuario.
 
-4. **Entretenimiento**:  
+6. **Entretenimiento**:  
    - Juega a las escondidas con el usuario. El asistente se esconde en la pantalla y el usuario debe encontrarlo.  
    - Muestra memes al azar para alegrar el día.  
-   - Envía mensajes aleatorios cada 90 segundos para mantener la interacción.  
+   - Envía mensajes aleatorios cada 90 segundos para mantener la interacción.
 
-5. **Humor impredecible**:  
-   - ¡A veces "roba" el mouse del usuario para sorprenderlo! 🖱️😜  
+7. **Humor impredecible**:  
+   - ¡A veces "roba" el mouse del usuario para sorprenderlo! 🖱️😜
 
-6. **Estilo único**:  
-   - El asistente tiene una personalidad alegre y auténtica basada en la cultura peruana.  
+8. **Estilo único**:  
+   - El asistente tiene una personalidad alegre y auténtica basada en la cultura peruana.
 
 ## Librerías utilizadas 📚
 
@@ -47,7 +48,7 @@ Este es un **asistente virtual único** con un toque peruano. Diseñado para ent
 - `math` - Para cálculos matemáticos en las funciones internas.  
 - `Pillow (PIL)` - Para manipulación y visualización de imágenes.  
 - `io` - Para gestionar flujos de datos.  
-- `webbrowser` - Para abrir enlaces en el navegador.  
+- `webbrowser` - Para abrir enlaces en el navegador.
 
 ## Instalación 🚀
 
@@ -75,14 +76,15 @@ Este es un **asistente virtual único** con un toque peruano. Diseñado para ent
 
 - Python 3.8 o superior.  
 - Conexión a Internet.  
-- Sistema operativo compatible (Windows, macOS o Linux).  
+- Sistema operativo compatible (Windows, macOS o Linux).
 
 ## Uso 📚
 
 - Haz clic en los botones de la interfaz para consultar noticias internacionales en el idioma deseado.  
 - Usa el botón del clima para obtener información basada en tu ubicación actual.  
+- Recibe una lista de 30 canciones seleccionadas al presionar el botón de recomendaciones musicales.  
 - Juega con el asistente presionando el botón "Jugar a las escondidas".  
-- Interactúa con el nuevo chat en inglés. ⚠️ **Evita escribir en español para prevenir errores.**
+- Interactúa con el chat en inglés o español.
 
 ## Ejemplo de interacción 💬
 
@@ -93,27 +95,19 @@ Asistente: Aquí están las últimas noticias internacionales: [enlace a noticia
 Usuario: Presiona el botón del clima.
 Asistente: Actualmente está soleado con 25°C en tu ubicación.
 
-Usuario: Presiona el botón para jugar a las escondidas.
-Asistente: ¡Me estoy escondiendo! 👀 Encuéntrame en la pan
+Usuario: Presiona el botón de recomendaciones musicales.
+Asistente: Aquí tienes una lista de 30 canciones que podrías disfrutar:  
+1. Song Title 1  
+2. Song Title 2  
+...  
+30. Song Title 30
 
----------EJEMPLO EN EL CHATBOT-------
-Usuario: Hi! How are you?  
+Usuario: Hi! How are you?
 Asistente: I'm doing well, thank you. How about yourself? Do you have any plans for the weekend?
- 
-Usuario: Hablas español?  
-Asistente: Holidays are my favorite time of the year.  Do you like holidays?
- 
+
+Usuario: Hablas español?
+Asistente: ¡Claro que sí! ¿Cómo puedo ayudarte hoy?
 ```
-
-plaintext
-Usuario: Presiona el botón de noticias internacionales.
-Asistente: Aquí están las últimas noticias internacionales en inglés: [enlace a noticias]
-
-Usuario: Presiona el botón del clima.
-Asistente: Actualmente está soleado con 25°C en tu ubicación.
-
-Usuario: Presiona el botón para jugar a las escondidas.
-Asistente: ¡Me estoy escondiendo! 👀 Encuéntrame en la pan
 
 ## Contribución 🤝
 
@@ -124,21 +118,21 @@ Asistente: ¡Me estoy escondiendo! 👀 Encuéntrame en la pan
    ```  
 3. Realiza tus cambios y haz commit:  
    ```bash
-   git commit -m "Añadida nueva funcionalidad"  
+   git commit -m "Añadida nueva funcionalidad"
    ```  
 4. Sube tus cambios:  
    ```bash
-   git push origin nueva-funcionalidad  
+   git push origin nueva-funcionalidad
    ```  
-5. Crea un pull request en GitHub.  
+5. Crea un pull request en GitHub.
 
 ## Licencia 📄
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.  
+Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
 ## Estructura del proyecto 📂
 
 - **Assistant.py**: El archivo principal que contiene el código del asistente virtual.  
 - **Imagenes/**: Carpeta que almacena los recursos gráficos.  
-- **README.md**: Este archivo, que proporciona una descripción detallada del proyecto, cómo instalarlo, usarlo y contribuir.  
----
+- **README.md**: Este archivo, que proporciona una descripción detallada del proyecto, cómo instalarlo, usarlo y contribuir.
+- **Base de datos/**:Carpeta que contiene datos para poder mostrar en algunas funciones
