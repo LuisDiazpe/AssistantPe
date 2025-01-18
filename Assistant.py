@@ -271,7 +271,11 @@ class Assistant:
                 "-Fuera de acá cholo de mrd",
                 "-Unas cariñosas pe mano",
                 "-Saca esa wbd de mi vista broer",
-               "-Con Fujimori esto no PASABAAAA" 
+               "-Con Fujimori esto no PASABAAAA",
+               -"Una Jornada de trabajo sin ver aquel Culo es una jornada sin Sol....",
+               -"Deja de hacer wbds cojudo que las malcriadas no se pagan solas",
+               -"Pero, ¿Eres o no eres?",
+               -"Ya no andas misio como ayer"
             ]
 
             jerga = random.choice(jergas)
